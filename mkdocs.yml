@@ -1,0 +1,196 @@
+# Project information
+site_name: TensorStack AI 平台文档
+site_url: https://docs.kube.tensorstack.net/user-docs/  # private
+# site_url: https://tbd  # public
+site_author: TensorStack Authors
+
+# Copyright
+copyright: Copyright &copy; 2018 - 2023 TensorStack
+
+# Configuration
+theme:
+  name: material # https://github.com/squidfunk/mkdocs-material
+  custom_dir:
+    overrides # any file in 'overrides' directory will override the origin theme
+    # refer to https://squidfunk.github.io/mkdocs-material/customization/#extending-the-theme
+  language: zh # language
+  features:
+    # - navigation.instant # instant loading
+    # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#instant-loading
+    - navigation.indexes # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#section-index-pages
+    - navigation.sections # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#navigation-sections
+    - navigation.tabs # enable navigation tabs, recommended for large docs with several parts
+    - navigation.top # add back-to-top button
+    - navigation.tracking # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#anchor-tracking
+    - search.highlight # highlight all occurences of the search keyword
+    - search.share # allow to share current search query and result
+    - search.suggest # enable search to display completion suggestions (only worked for English)
+  palette: # color scheme
+    scheme: default # 'default' for light mode, 'slate' for dark mode (not recommended)
+    primary: blue # primary color, used for header, sidebar, text links and several other components
+    accent: cyan # accent color, used to denote elements that can be interacted with, e.g. hovered links, buttons and scrollbars
+  favicon: assets/icon.svg # favicon showed as tab icon, can be changed to user-provided image (*.png or *.svg)
+  logo: assets/logo.png # logo showed at top left of page, can be changed to user-provided image (*.png or *.svg)
+
+use_directory_urls: false # prevent generating a directory for each markdown file when building
+
+# Extensions
+markdown_extensions:
+  - admonition # enable admonition
+    # refer to https://squidfunk.github.io/mkdocs-material/reference/admonitions/
+  - attr_list # enable Attribute List extension, which allows to add HTML attributes and CSS classes to Markdown elements
+    # refer to https://squidfunk.github.io/mkdocs-material/reference/buttons/
+  - meta # enable metadata for md docs
+  - pymdownx.arithmatex: # enable Arithmatex extension, which allows rendering block and inline equations
+      generic: true
+  - pymdownx.caret # optional, enable underline with double '^^', superscript with connected '^'
+  - pymdownx.details # make admonitions collapsible
+  - pymdownx.emoji: # optional, enable Emoji extension, which enables *.svg icons to be integrated inline
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+      options: # add additional *.svg icons
+        custom_icons:
+          - overrides/.icons
+  - pymdownx.highlight # enable Highlight extension, which enables syntax highlight for code block
+    # refer to https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#highlight
+  - pymdownx.inlinehilite # enable InlineHilite extension, which enables syntax highlight for inline code
+    # refer to https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#inlinehilite
+  - pymdownx.keys # optional, enable keyboard key icon with double '++'
+  - pymdownx.mark # optional, enable mark with double '=='
+  - pymdownx.superfences # allow for nesting of code and content blocks inside admonitions
+  - pymdownx.tabbed # enable tabbed contents
+    # refet to https://squidfunk.github.io/mkdocs-material/reference/content-tabs/
+  - pymdownx.tilde # optional, enable strikethrough with double '~~', subscript with connected '~'
+  - toc: # Table of contents extension
+      permalink: true # add an anchor link at the end of each headline
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+      toc_depth: 3 # range of levels to be included in toc
+
+# Plugins
+plugins:
+  - git-revision-date # display date last updated at bottom of page for proofreading
+    # refer to https://squidfunk.github.io/mkdocs-material/setup/adding-a-git-repository/?h=git+rev#revision-date
+  - search # enable search
+
+# Page Tree
+nav:
+  - 首页: index.html
+  - 产品介绍:
+    - product-introduction/index.md
+    - 总览: product-introduction/overview.md
+    - 产品架构: product-introduction/architecture.md
+    - 功能特性: product-introduction/functions.md
+    - 产品优势: product-introduction/advantages.md
+    - 应用场景: product-introduction/applications.md
+  # - 快速入门:
+  - 模块:
+    - AI 引擎层:
+      - 模型构建:
+        - 操作指南:
+          - 开发和测试模型:
+            - guide/develop-and-test-model/index.md
+            - 创建 Notebook: guide/develop-and-test-model/create-notebook.md
+            - 使用 Notebook: guide/develop-and-test-model/use-notebook.md
+            # - T9k Notebook 的扩展功能: guide/develop-and-test-model/extended-functions.md
+            - 通过 SSH 连接远程使用 Notebook: guide/develop-and-test-model/use-notebook-remotely-via-ssh-connection.md
+  # - 参考:
+  - 工具:
+    - tool/index.md
+    - TensorStack CLI:
+      - tool/tensorstack-cli/index.md
+      - 用户指南: tool/tensorstack-cli/user-guide.md
+      - 命令: tool/tensorstack-cli/command.md
+    - TensorStack SDK:
+      - tool/tensorstack-sdk/index.md
+      - 用户指南: tool/tensorstack-sdk/user-guide.md
+      - API:
+        - tool/tensorstack-sdk/api/index.md
+        - t9k.ah:
+          - tool/tensorstack-sdk/api/t9k/ah/index.md
+          - create_folder: tool/tensorstack-sdk/api/t9k/ah/create_folder.md
+          - get_asset: tool/tensorstack-sdk/api/t9k/ah/get_asset.md
+          - get_folder: tool/tensorstack-sdk/api/t9k/ah/get_folder.md
+          - list_folder: tool/tensorstack-sdk/api/t9k/ah/list_folder.md
+          - login: tool/tensorstack-sdk/api/t9k/ah/login.md
+          - logout: tool/tensorstack-sdk/api/t9k/ah/logout.md
+        - t9k.ah.core:
+          - tool/tensorstack-sdk/api/t9k/ah/core/index.md
+          - Branch: tool/tensorstack-sdk/api/t9k/ah/core/Branch.md
+          - Commit: tool/tensorstack-sdk/api/t9k/ah/core/Commit.md
+          - Dataset: tool/tensorstack-sdk/api/t9k/ah/core/Dataset.md
+          - Folder: tool/tensorstack-sdk/api/t9k/ah/core/Folder.md
+          - Model: tool/tensorstack-sdk/api/t9k/ah/core/Model.md
+          - Tag: tool/tensorstack-sdk/api/t9k/ah/core/Tag.md
+        - t9k.aimd:
+          - tool/tensorstack-sdk/api/t9k/aimd/index.md
+          - create_artifact: tool/tensorstack-sdk/api/t9k/aimd/create_artifact.md
+          - create_trial: tool/tensorstack-sdk/api/t9k/aimd/create_trial.md
+          - grab_artifact: tool/tensorstack-sdk/api/t9k/aimd/grab_artifact.md
+          - load_trial: tool/tensorstack-sdk/api/t9k/aimd/load_trial.md
+          - login: tool/tensorstack-sdk/api/t9k/aimd/login.md
+          - logout: tool/tensorstack-sdk/api/t9k/aimd/logout.md
+          - upload_artifact: tool/tensorstack-sdk/api/t9k/aimd/upload_artifact.md
+          - upload_trial: tool/tensorstack-sdk/api/t9k/aimd/upload_trial.md
+        - t9k.aimd.artifact:
+          - tool/tensorstack-sdk/api/t9k/aimd/artifact/index.md
+          - Artifact: tool/tensorstack-sdk/api/t9k/aimd/artifact/Artifact.md
+        - t9k.aimd.containers:
+          - tool/tensorstack-sdk/api/t9k/aimd/containers/index.md
+          - Params: tool/tensorstack-sdk/api/t9k/aimd/containers/Params.md
+        - t9k.aimd.keras:
+          - tool/tensorstack-sdk/api/t9k/aimd/keras/index.md
+          - AIMDEvalCallback: tool/tensorstack-sdk/api/t9k/aimd/keras/AIMDEvalCallback.md
+          - AIMDFitCallback: tool/tensorstack-sdk/api/t9k/aimd/keras/AIMDFitCallback.md
+        - t9k.aimd.lightning:
+          - tool/tensorstack-sdk/api/t9k/aimd/lightning/index.md
+          - AIMDCallback: tool/tensorstack-sdk/api/t9k/aimd/lightning/AIMDCallback.md
+        - t9k.aimd.trial:
+          - tool/tensorstack-sdk/api/t9k/aimd/trial/index.md
+          - Trial: tool/tensorstack-sdk/api/t9k/aimd/trial/Trial.md
+        - t9k.config:
+          - tool/tensorstack-sdk/api/t9k/config/index.md
+          - Config: tool/tensorstack-sdk/api/t9k/config/Config.md
+          - ConfigItem: tool/tensorstack-sdk/api/t9k/config/ConfigItem.md
+        - t9k.tuner:
+          - tool/tensorstack-sdk/api/t9k/tuner/index.md
+          - get_current_parameter: tool/tensorstack-sdk/api/t9k/tuner/get_current_parameter.md
+          - get_experiment_id: tool/tensorstack-sdk/api/t9k/tuner/get_experiment_id.md
+          - get_next_parameter: tool/tensorstack-sdk/api/t9k/tuner/get_next_parameter.md
+          - get_sequence_id: tool/tensorstack-sdk/api/t9k/tuner/get_sequence_id.md
+          - get_trial_id: tool/tensorstack-sdk/api/t9k/tuner/get_trial_id.md
+          - report_final_result: tool/tensorstack-sdk/api/t9k/tuner/report_final_result.md
+          - report_intermediate_result: tool/tensorstack-sdk/api/t9k/tuner/report_intermediate_result.md
+        - t9k.tuner.keras:
+          - tool/tensorstack-sdk/api/t9k/tuner/keras/index.md
+          - AutoTuneEvalCallback: tool/tensorstack-sdk/api/t9k/tuner/keras/AutoTuneEvalCallback.md
+          - AutoTuneFitCallback: tool/tensorstack-sdk/api/t9k/tuner/keras/AutoTuneFitCallback.md
+    - TensorStack PortForward CLI:
+      - tool/tensorstack-pf-cli/index.md
+    - Codepack:
+      - tool/codepack/index.md
+      - 概念: tool/codepack/concept.md
+      - Codepack 定义: tool/codepack/codepack.md
+      - 命令行工具: tool/codepack/cli.md
+      - 示例: tool/codepack/example.md
+#   - 应用:
+#   - 博客:
+
+
+# Customization
+# extra:
+#   version:
+#     provider: mike
+#   social:                  # SNS links, for future use
+#     - icon: fontawesome/brands/twitter
+#       link: https://twitter.com/tensorstack  # for example
+
+# CSS Customization
+extra_css:
+  - stylesheets/extra.css
+
+# JS Customization
+extra_javascript:
+  - javascripts/mathjax.js
+  - javascripts/tex-mml-chtml.js
