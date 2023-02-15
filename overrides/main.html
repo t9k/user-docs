@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{#
+
+  {% block announce %}
+    WIP...
+  {% endblock %}
+
+#}
+
+{% block fonts %}
+{% if config.theme.font != false %}
+  {% set text = config.theme.font.text | d("Roboto", true) %}
+  {% set code = config.theme.font.code | d("Roboto Mono", true) %}
+  <link rel="stylesheet" href="{{ 'stylesheets/gfonts.css' | url }}">
+  <style>:root{--md-text-font:"{{ text }}";--md-code-font:"{{ code }}"}</style>
+{% endif %}
+{% endblock %}

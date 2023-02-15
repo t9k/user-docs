@@ -1,0 +1,5 @@
+*.DS_Store
+# default dir for mkdocs build
+/site/
+# For local test
+local-test
