@@ -1,0 +1,2617 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="TensorStack Authors">
+      
+      
+        <link rel="canonical" href="https://docs.kube.tensorstack.net/user-docs/tool/dataset-cli/index.html">
+      
+      
+      
+      <link rel="icon" href="../../assets/icon.svg">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.12">
+    
+    
+      
+        <title>Dataset Management CLI - TensorStack AI 平台文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0d440cfe.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+
+  
+  
+  <link rel="stylesheet" href="../../stylesheets/gfonts.css">
+  <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+
+
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dataset-management-cli" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../index.html" title="TensorStack AI 平台文档" class="md-header__button md-logo" aria-label="TensorStack AI 平台文档" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TensorStack AI 平台文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Dataset Management CLI
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../index.html" class="md-tabs__link">
+      首页
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../product-introduction/index.html" class="md-tabs__link">
+        产品介绍
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    
+
+  
+  
+  
+    
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guide/develop-and-test-model/index.html" class="md-tabs__link">
+        模块
+      </a>
+    </li>
+  
+
+  
+
+  
+
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        工具
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../index.html" title="TensorStack AI 平台文档" class="md-nav__button md-logo" aria-label="TensorStack AI 平台文档" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    TensorStack AI 平台文档
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.html" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../product-introduction/index.html">产品介绍</a>
+          
+            <label for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          产品介绍
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product-introduction/overview.html" class="md-nav__link">
+        总览
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product-introduction/architecture.html" class="md-nav__link">
+        产品架构
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product-introduction/functions.html" class="md-nav__link">
+        功能特性
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product-introduction/advantages.html" class="md-nav__link">
+        产品优势
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product-introduction/applications.html" class="md-nav__link">
+        应用场景
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          模块
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          模块
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+          AI 引擎层
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          AI 引擎层
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1" >
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_1_1" id="__nav_3_1_1_label" tabindex="0">
+          模型构建
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_1_1">
+          <span class="md-nav__icon md-icon"></span>
+          模型构建
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1_1" >
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_1_1_1" id="__nav_3_1_1_1_label" tabindex="0">
+          操作指南
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_1_1_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_1_1_1">
+          <span class="md-nav__icon md-icon"></span>
+          操作指南
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1_1_1" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../guide/develop-and-test-model/index.html">开发和测试模型</a>
+          
+            <label for="__nav_3_1_1_1_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_3_1_1_1_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_1_1_1_1">
+          <span class="md-nav__icon md-icon"></span>
+          开发和测试模型
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/develop-and-test-model/create-notebook.html" class="md-nav__link">
+        创建 Notebook
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/develop-and-test-model/use-notebook.html" class="md-nav__link">
+        使用 Notebook
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guide/develop-and-test-model/use-notebook-remotely-via-ssh-connection.html" class="md-nav__link">
+        通过 SSH 连接远程使用 Notebook
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../index.html">工具</a>
+          
+            <label for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          工具
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-cli/index.html">TensorStack CLI</a>
+          
+            <label for="__nav_4_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          TensorStack CLI
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-cli/user-guide.html" class="md-nav__link">
+        用户指南
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-cli/command.html" class="md-nav__link">
+        命令
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/index.html">TensorStack SDK</a>
+          
+            <label for="__nav_4_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          TensorStack SDK
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/user-guide.html" class="md-nav__link">
+        用户指南
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_3" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/api/index.html">API</a>
+          
+            <label for="__nav_4_3_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_3_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_3_2" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/api/t9k/ah/index.html">t9k.ah</a>
+          
+            <label for="__nav_4_3_3_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_3_3_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          t9k.ah
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/ah/create_folder.html" class="md-nav__link">
+        create_folder
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/ah/get_asset.html" class="md-nav__link">
+        get_asset
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/ah/get_folder.html" class="md-nav__link">
+        get_folder
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/ah/list_folder.html" class="md-nav__link">
+        list_folder
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/ah/login.html" class="md-nav__link">
+        login
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/ah/logout.html" class="md-nav__link">
+        logout
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_3_3" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/api/t9k/ah/core/index.html">t9k.ah.core</a>
+          
+            <label for="__nav_4_3_3_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_3_3_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          t9k.ah.core
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/ah/core/Branch.html" class="md-nav__link">
+        Branch
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/ah/core/Commit.html" class="md-nav__link">
+        Commit
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/ah/core/Dataset.html" class="md-nav__link">
+        Dataset
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/ah/core/Folder.html" class="md-nav__link">
+        Folder
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/ah/core/Model.html" class="md-nav__link">
+        Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/ah/core/Tag.html" class="md-nav__link">
+        Tag
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_3_4" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/api/t9k/aimd/index.html">t9k.aimd</a>
+          
+            <label for="__nav_4_3_3_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_3_3_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3_3_4">
+          <span class="md-nav__icon md-icon"></span>
+          t9k.aimd
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/create_artifact.html" class="md-nav__link">
+        create_artifact
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/create_trial.html" class="md-nav__link">
+        create_trial
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/grab_artifact.html" class="md-nav__link">
+        grab_artifact
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/load_trial.html" class="md-nav__link">
+        load_trial
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/login.html" class="md-nav__link">
+        login
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/logout.html" class="md-nav__link">
+        logout
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/upload_artifact.html" class="md-nav__link">
+        upload_artifact
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/upload_trial.html" class="md-nav__link">
+        upload_trial
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_3_5" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/api/t9k/aimd/artifact/index.html">t9k.aimd.artifact</a>
+          
+            <label for="__nav_4_3_3_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_3_3_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          t9k.aimd.artifact
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/artifact/Artifact.html" class="md-nav__link">
+        Artifact
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_3_6" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/api/t9k/aimd/containers/index.html">t9k.aimd.containers</a>
+          
+            <label for="__nav_4_3_3_6">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_3_3_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3_3_6">
+          <span class="md-nav__icon md-icon"></span>
+          t9k.aimd.containers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/containers/Params.html" class="md-nav__link">
+        Params
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_3_7" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/api/t9k/aimd/keras/index.html">t9k.aimd.keras</a>
+          
+            <label for="__nav_4_3_3_7">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_3_3_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3_3_7">
+          <span class="md-nav__icon md-icon"></span>
+          t9k.aimd.keras
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/keras/AIMDEvalCallback.html" class="md-nav__link">
+        AIMDEvalCallback
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/keras/AIMDFitCallback.html" class="md-nav__link">
+        AIMDFitCallback
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_3_8" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/api/t9k/aimd/lightning/index.html">t9k.aimd.lightning</a>
+          
+            <label for="__nav_4_3_3_8">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_3_3_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3_3_8">
+          <span class="md-nav__icon md-icon"></span>
+          t9k.aimd.lightning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/lightning/AIMDCallback.html" class="md-nav__link">
+        AIMDCallback
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_3_9" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/api/t9k/aimd/trial/index.html">t9k.aimd.trial</a>
+          
+            <label for="__nav_4_3_3_9">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_3_3_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3_3_9">
+          <span class="md-nav__icon md-icon"></span>
+          t9k.aimd.trial
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/aimd/trial/Trial.html" class="md-nav__link">
+        Trial
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_3_10" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/api/t9k/config/index.html">t9k.config</a>
+          
+            <label for="__nav_4_3_3_10">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_3_3_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3_3_10">
+          <span class="md-nav__icon md-icon"></span>
+          t9k.config
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/config/Config.html" class="md-nav__link">
+        Config
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/config/ConfigItem.html" class="md-nav__link">
+        ConfigItem
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_3_11" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/api/t9k/tuner/index.html">t9k.tuner</a>
+          
+            <label for="__nav_4_3_3_11">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_3_3_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3_3_11">
+          <span class="md-nav__icon md-icon"></span>
+          t9k.tuner
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/tuner/get_current_parameter.html" class="md-nav__link">
+        get_current_parameter
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/tuner/get_experiment_id.html" class="md-nav__link">
+        get_experiment_id
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/tuner/get_next_parameter.html" class="md-nav__link">
+        get_next_parameter
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/tuner/get_sequence_id.html" class="md-nav__link">
+        get_sequence_id
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/tuner/get_trial_id.html" class="md-nav__link">
+        get_trial_id
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/tuner/report_final_result.html" class="md-nav__link">
+        report_final_result
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/tuner/report_intermediate_result.html" class="md-nav__link">
+        report_intermediate_result
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_3_12" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-sdk/api/t9k/tuner/keras/index.html">t9k.tuner.keras</a>
+          
+            <label for="__nav_4_3_3_12">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_3_3_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3_3_12">
+          <span class="md-nav__icon md-icon"></span>
+          t9k.tuner.keras
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/tuner/keras/AutoTuneEvalCallback.html" class="md-nav__link">
+        AutoTuneEvalCallback
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorstack-sdk/api/t9k/tuner/keras/AutoTuneFitCallback.html" class="md-nav__link">
+        AutoTuneFitCallback
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../tensorstack-pf-cli/index.html">TensorStack PortForward CLI</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_4">
+          <span class="md-nav__icon md-icon"></span>
+          TensorStack PortForward CLI
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../codepack/index.html">Codepack</a>
+          
+            <label for="__nav_4_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Codepack
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../codepack/concept.html" class="md-nav__link">
+        概念
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../codepack/codepack.html" class="md-nav__link">
+        Codepack 定义
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../codepack/cli.html" class="md-nav__link">
+        命令行工具
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../codepack/example.html" class="md-nav__link">
+        示例
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#准备工作" class="md-nav__link">
+    准备工作
+  </a>
+  
+    <nav class="md-nav" aria-label="准备工作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#下载" class="md-nav__link">
+    下载
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#配置" class="md-nav__link">
+    配置
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用手册" class="md-nav__link">
+    使用手册
+  </a>
+  
+    <nav class="md-nav" aria-label="使用手册">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#repo-操作" class="md-nav__link">
+    repo 操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#branch-操作" class="md-nav__link">
+    branch 操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#文件操作" class="md-nav__link">
+    文件操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tag-操作" class="md-nav__link">
+    tag 操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#用户操作" class="md-nav__link">
+    用户操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#权限操作" class="md-nav__link">
+    权限操作
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="dataset-management-cli">Dataset Management CLI<a class="headerlink" href="#dataset-management-cli" title="Permanent link">&para;</a></h1>
+<p>本文档介绍<a href="../../module/dataset">数据集管理</a>模块中命令行工具的使用方法，包括 <code>lakectl</code> 和 <code>s3cmd</code>。其中， <code>s3cmd</code> 主要用于上传、下载文件，<code>lakectl</code> 主要用于版本控制和权限管理相关的操作。另外，<code>lakectl</code> 的使用方法也可以参阅 <a href="https://docs.lakefs.io/reference/commands.html" target="_blank">lakeFS 官方文档<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"/></svg></span></a>。</p>
+<h2 id="准备工作">准备工作<a class="headerlink" href="#准备工作" title="Permanent link">&para;</a></h2>
+<h3 id="下载">下载<a class="headerlink" href="#下载" title="Permanent link">&para;</a></h3>
+<p><code>lakectl</code> 可以从平台首页下载。您需要根据操作系统和架构选择适当的版本，下载后将其解压并移动到 <code>/usr/local/bin</code> 路径下：</p>
+<div class="highlight"><pre><span></span><code><span class="nv">version</span><span class="o">=</span>v0.63.0
+<span class="nv">os</span><span class="o">=</span>darwin
+<span class="nv">arch</span><span class="o">=</span>amd64
+
+tar<span class="w"> </span>-zxvf<span class="w"> </span>./lakectl-<span class="nv">$version</span>-<span class="nv">$os</span>-<span class="nv">$arch</span>.tar.gz
+mv<span class="w"> </span>./lakectl-<span class="nv">$os</span>-<span class="nv">$arch</span><span class="w"> </span>/usr/local/bin/lakectl
+rm<span class="w"> </span>./lakectl-<span class="nv">$version</span>-<span class="nv">$os</span>-<span class="nv">$arch</span>.tar.gz
+</code></pre></div>
+<p>您可以运行以下命令来验证 <code>lakectl</code> 安装完成：</p>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>--version
+</code></pre></div>
+<p><code>s3cmd</code> 可以通过以下命令安装：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ubuntu</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>s3cmd
+
+<span class="c1"># macOS</span>
+brew<span class="w"> </span>install<span class="w"> </span>s3cmd
+</code></pre></div>
+<p>您可以运行以下命令来验证 <code>s3cmd</code> 安装完成：</p>
+<div class="highlight"><pre><span></span><code>s3cmd<span class="w"> </span>--version
+</code></pre></div>
+<p>另外，<a href="../../module/building/notebook.md">Notebook</a> 中已经预装了 <code>lakectl</code> 和 <code>s3cmd</code>，您无需手动安装。</p>
+<h3 id="配置">配置<a class="headerlink" href="#配置" title="Permanent link">&para;</a></h3>
+<p><code>lakectl</code> 和 <code>s3cmd</code> 都通过配置文件来进行配置，它们的配置文件分别位于 <code>$HOME/.lakectl.yaml</code> 和 <code>$HOME/.s3cfg</code>。</p>
+<p>假设您在 lakeFS 中的账号密码分别为 <code>USERNAME</code> 和 <code>PASSWORD</code>，lakeFS 的地址为 <code>http://example.com</code>，那么配置文件的形式如下：</p>
+<details class="quote">
+<summary><code>$HOME/.lakectl.yaml</code></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">credentials</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">access_key_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">USERNAME</span>
+<span class="w">  </span><span class="nt">secret_access_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PASSWORD</span>
+<span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">endpoint_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://example.com/api/v1</span>
+</code></pre></div>
+</details>
+<details class="quote">
+<summary><code>$HOME/.s3cfg</code></summary>
+<div class="highlight"><pre><span></span><code><span class="c1"># Setup endpoint</span>
+<span class="nv">host_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>http://example.com
+<span class="nv">host_bucket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>http://example.com
+<span class="nv">bucket_location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>us-east-1
+<span class="nv">use_https</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>False
+
+<span class="c1"># Setup access keys</span>
+<span class="nv">access_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>USERNAME
+<span class="nv">secret_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>PASSWORD
+
+<span class="c1"># Enable S3 v4 signature APIs</span>
+<span class="nv">signature_v2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>False
+</code></pre></div>
+</details>
+<h2 id="使用手册">使用手册<a class="headerlink" href="#使用手册" title="Permanent link">&para;</a></h2>
+<p>下面具体介绍数据集管理过程中 <code>lakectl</code> 和 <code>s3cmd</code> 的使用方法。</p>
+<h3 id="repo-操作">repo 操作<a class="headerlink" href="#repo-操作" title="Permanent link">&para;</a></h3>
+<h4 id="创建-repo">创建 repo<a class="headerlink" href="#创建-repo" title="Permanent link">&para;</a></h4>
+<p>创建 repo 时需要在底层的 S3 存储服务中指定一个路径来存放该 repo 中的数据。我们已经提前创建好了一个名为 t9k 的 bucket，如果您要创建一个名为 myrepo 的 repo，指定路径为 <code>s3://t9k/myrepo</code> 即可。</p>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>repo<span class="w"> </span>create<span class="w"> </span>lakefs://myrepo<span class="w"> </span>s3://t9k/myrepo
+lakectl<span class="w"> </span>repo<span class="w"> </span>create<span class="w"> </span>lakefs://another-repo<span class="w"> </span>s3://t9k/another-repo
+</code></pre></div>
+<h4 id="列出所有的-repo">列出所有的 repo<a class="headerlink" href="#列出所有的-repo" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>repo<span class="w"> </span>list
+</code></pre></div>
+<h4 id="删除-repo">删除 repo<a class="headerlink" href="#删除-repo" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>repo<span class="w"> </span>delete<span class="w"> </span>lakefs://another-repo
+</code></pre></div>
+<h3 id="branch-操作">branch 操作<a class="headerlink" href="#branch-操作" title="Permanent link">&para;</a></h3>
+<h4 id="新建-branch">新建 branch<a class="headerlink" href="#新建-branch" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 基于 main branch 新建一个 branch</span>
+lakectl<span class="w"> </span>branch<span class="w"> </span>create<span class="w"> </span>lakefs://myrepo/mybranch<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--source<span class="w"> </span>lakefs://myrepo/main
+<span class="c1"># 基于一个 commit 新建一个 branch</span>
+lakectl<span class="w"> </span>branch<span class="w"> </span>create<span class="w"> </span>lakefs://myrepo/mybranch<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--source<span class="w"> </span>lakefs://myrepo/50440c4ab941b1c7a8497741f
+</code></pre></div>
+<h4 id="列出所有-branch">列出所有 branch<a class="headerlink" href="#列出所有-branch" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>branch<span class="w"> </span>list<span class="w"> </span>lakefs://myrepo
+</code></pre></div>
+<h4 id="合并-branch">合并 branch<a class="headerlink" href="#合并-branch" title="Permanent link">&para;</a></h4>
+<p>在没有冲突的情况下，您可以将一个 branch 合并到另一个 branch 中。</p>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>merge<span class="w"> </span>lakefs://myrepo/source-branch<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>lakefs://myrepo/destination-branch
+</code></pre></div>
+<h4 id="删除-branch">删除 branch<a class="headerlink" href="#删除-branch" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>branch<span class="w"> </span>delete<span class="w"> </span>lakefs://myrepo/mybranch
+</code></pre></div>
+<h4 id="受保护的-branch">受保护的 branch<a class="headerlink" href="#受保护的-branch" title="Permanent link">&para;</a></h4>
+<p>如果一个 branch 是受保护的，那么只允许别的 branch 被合并到这个 branch 上，而不允许对这个 branch 做任何直接的修改。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 将 myrepo 中的 mybranch 设置为受保护的</span>
+lakectl<span class="w"> </span>branch-protect<span class="w"> </span>add<span class="w"> </span>lakefs://myrepo<span class="w"> </span>mybranch
+
+<span class="c1"># 将 myrepo 中符合 stable-* 格式的 branch 设置为受保护的，例如名为 stable-v1.0、stable-2.3.4 的 branch</span>
+lakectl<span class="w"> </span>branch-protect<span class="w"> </span>add<span class="w"> </span>lakefs://myrepo<span class="w"> </span>stable-*
+</code></pre></div>
+<h3 id="文件操作">文件操作<a class="headerlink" href="#文件操作" title="Permanent link">&para;</a></h3>
+<h4 id="本地上传文件">本地上传文件<a class="headerlink" href="#本地上传文件" title="Permanent link">&para;</a></h4>
+<p>支持上传单个文件、多个文件（使用通配符）和整个目录。</p>
+<div class="highlight"><pre><span></span><code>s3cmd<span class="w"> </span>put<span class="w"> </span>./object<span class="w"> </span>s3://myrepo/mybranch
+s3cmd<span class="w"> </span>put<span class="w"> </span>./*.png<span class="w"> </span>s3://myrepo/mybranch
+s3cmd<span class="w"> </span>put<span class="w"> </span>-r<span class="w"> </span>./mnist/training/<span class="w"> </span>s3://myrepo/mybranch
+</code></pre></div>
+<h4 id="提交-commit">提交 commit<a class="headerlink" href="#提交-commit" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>commit<span class="w"> </span>lakefs://myrepo/mybranch<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add first object&quot;</span>
+</code></pre></div>
+<h4 id="查看-commit-记录">查看 commit 记录<a class="headerlink" href="#查看-commit-记录" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>log<span class="w"> </span>lakefs://myrepo/mybranch
+</code></pre></div>
+<h4 id="查看文件列表">查看文件列表<a class="headerlink" href="#查看文件列表" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>s3cmd<span class="w"> </span>ls<span class="w"> </span>s3://myrepo/mybranch/
+s3cmd<span class="w"> </span>ls<span class="w"> </span>s3://myrepo/mybranch/mydirectory/
+</code></pre></div>
+<h4 id="下载文件">下载文件<a class="headerlink" href="#下载文件" title="Permanent link">&para;</a></h4>
+<p>支持下载单个文件和整个目录。</p>
+<div class="highlight"><pre><span></span><code>s3cmd<span class="w"> </span>get<span class="w"> </span>s3://myrepo/mybranch/myobject<span class="w"> </span>./
+s3cmd<span class="w"> </span>get<span class="w"> </span>-r<span class="w"> </span>s3://myrepo/mybranch/mydirectory<span class="w"> </span>./
+</code></pre></div>
+<h4 id="删除文件">删除文件<a class="headerlink" href="#删除文件" title="Permanent link">&para;</a></h4>
+<p>支持删除单个文件和整个目录。</p>
+<div class="highlight"><pre><span></span><code>s3cmd<span class="w"> </span>rm<span class="w"> </span>s3://myrepo/mybranch/myobject
+s3cmd<span class="w"> </span>rm<span class="w"> </span>-r<span class="w"> </span>s3://myrepo/mybranch/mydirectory
+</code></pre></div>
+<h3 id="tag-操作">tag 操作<a class="headerlink" href="#tag-操作" title="Permanent link">&para;</a></h3>
+<h4 id="创建-tag">创建 tag<a class="headerlink" href="#创建-tag" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 为一个 branch 当前最新的 commit 加上 tag</span>
+lakectl<span class="w"> </span>tag<span class="w"> </span>create<span class="w"> </span>lakefs://myrepo/v1<span class="w"> </span>lakefs://myrepo/mybranch
+<span class="c1"># 为任意一个 commit 加上 tag</span>
+lakectl<span class="w"> </span>tag<span class="w"> </span>create<span class="w"> </span>lakefs://myrepo/v2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>lakefs://myrepo/5eeb5f7ba39f36d4bad495e
+</code></pre></div>
+<h4 id="列出所有-tag">列出所有 tag<a class="headerlink" href="#列出所有-tag" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>tag<span class="w"> </span>list<span class="w"> </span>lakefs://myrepo
+</code></pre></div>
+<h4 id="删除-tag">删除 tag<a class="headerlink" href="#删除-tag" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>tag<span class="w"> </span>delete<span class="w"> </span>lakefs://myrepo/v0
+</code></pre></div>
+<h3 id="用户操作">用户操作<a class="headerlink" href="#用户操作" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">注意</p>
+<p>这些创建、删除用户、用户组操作需要当前用户属于 <a href="#权限操作">Admins 用户组</a>。</p>
+</div>
+<h4 id="创建用户">创建用户<a class="headerlink" href="#创建用户" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>auth<span class="w"> </span>users<span class="w"> </span>create<span class="w"> </span>--id<span class="w"> </span>your-username
+</code></pre></div>
+<h4 id="生成用户登录信息">生成用户登录信息<a class="headerlink" href="#生成用户登录信息" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>auth<span class="w"> </span>users<span class="w"> </span>credentials<span class="w"> </span>create<span class="w"> </span>--id<span class="w"> </span>your-username
+</code></pre></div>
+<p>将生成的 Access Key ID 和 Secret Access Key 保存在 <code>$HOME/.lakectl.yaml</code> 中、或者在网页中登录，即可以该用户的身份访问 lakeFS。</p>
+<h4 id="列出所有用户">列出所有用户<a class="headerlink" href="#列出所有用户" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>auth<span class="w"> </span>users<span class="w"> </span>list
+</code></pre></div>
+<h4 id="删除用户">删除用户<a class="headerlink" href="#删除用户" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>auth<span class="w"> </span>users<span class="w"> </span>delete<span class="w"> </span>--id<span class="w"> </span>your-username
+</code></pre></div>
+<h3 id="权限操作">权限操作<a class="headerlink" href="#权限操作" title="Permanent link">&para;</a></h3>
+<p>我们通过将用户加入到某个用户组（group）中来设置用户权限。以下是内置的用户组及其所拥有的权限：</p>
+<ul>
+<li>Admins：<ul>
+<li>读、写所有 repo</li>
+<li>创建、删除 repo</li>
+<li>创建、删除用户、用户组</li>
+</ul>
+</li>
+<li>Developers：<ul>
+<li>读、写所有 repo</li>
+</ul>
+</li>
+<li>Viewers:<ul>
+<li>读所有 repo</li>
+</ul>
+</li>
+</ul>
+<h4 id="添加用户权限">添加用户权限<a class="headerlink" href="#添加用户权限" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>auth<span class="w"> </span>groups<span class="w"> </span>members<span class="w"> </span>add<span class="w"> </span>--user<span class="w"> </span>your-username<span class="w"> </span>--id<span class="w"> </span>group-name
+</code></pre></div>
+<p>例如，设置用户 test-user 能够读、写所有 repo 可使用如下命令：</p>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>auth<span class="w"> </span>groups<span class="w"> </span>members<span class="w"> </span>add<span class="w"> </span>--user<span class="w"> </span>test-user<span class="w"> </span>--id<span class="w"> </span>Developers
+</code></pre></div>
+<h4 id="删除用户权限">删除用户权限<a class="headerlink" href="#删除用户权限" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>auth<span class="w"> </span>groups<span class="w"> </span>members<span class="w"> </span>remove<span class="w"> </span>--user<span class="w"> </span>your-username<span class="w"> </span>--id<span class="w"> </span>group-name
+</code></pre></div>
+<h4 id="列举用户权限">列举用户权限<a class="headerlink" href="#列举用户权限" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>auth<span class="w"> </span>users<span class="w"> </span>groups<span class="w"> </span>list<span class="w"> </span>--id<span class="w"> </span>your-username
+</code></pre></div>
+<h4 id="列举具有某个权限的用户">列举具有某个权限的用户<a class="headerlink" href="#列举具有某个权限的用户" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>lakectl<span class="w"> </span>auth<span class="w"> </span>groups<span class="w"> </span>members<span class="w"> </span>list<span class="w"> </span>--id<span class="w"> </span>group-name
+</code></pre></div>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      最后更新:
+      2023-02-15
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2018 - 2023 TensorStack
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "search": "../../assets/javascripts/workers/search.db81ec45.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.4b2c34cd.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
