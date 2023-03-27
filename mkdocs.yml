@@ -3,6 +3,9 @@ site_name: TensorStack AI 平台文档
 site_url: https://docs.kube.tensorstack.net/user-docs/  # private
 # site_url: https://tbd  # public
 site_author: TensorStack Authors
+repo_url: https://github.com/t9k/user-docs
+repo_name: t9k/user-docs
+edit_uri: edit/master/docs/
 
 # Copyright
 copyright: Copyright &copy; 2018 - 2023 TensorStack
@@ -25,12 +28,18 @@ theme:
     - search.highlight # highlight all occurences of the search keyword
     - search.share # allow to share current search query and result
     - search.suggest # enable search to display completion suggestions (only worked for English)
+    - content.action.edit # add an edit button to each page
+    - content.action.view # add a view button to each page
   palette: # color scheme
     scheme: default # 'default' for light mode, 'slate' for dark mode (not recommended)
     primary: blue # primary color, used for header, sidebar, text links and several other components
     accent: cyan # accent color, used to denote elements that can be interacted with, e.g. hovered links, buttons and scrollbars
   favicon: assets/icon.svg # favicon showed as tab icon, can be changed to user-provided image (*.png or *.svg)
   logo: assets/logo.png # logo showed at top left of page, can be changed to user-provided image (*.png or *.svg)
+  icon:
+    repo: fontawesome/brands/github # git repo icon
+    edit: material/pencil # edit buttion icon
+    view: material/eye # view buttion icon
 
 use_directory_urls: false # prevent generating a directory for each markdown file when building
 
