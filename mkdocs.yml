@@ -104,7 +104,16 @@ nav:
             - 使用 Notebook: guide/develop-and-test-model/use-notebook.md
             # - T9k Notebook 的扩展功能: guide/develop-and-test-model/extended-functions.md
             - 通过 SSH 连接远程使用 Notebook: guide/develop-and-test-model/use-notebook-remotely-via-ssh-connection.md
-  # - 参考:
+  - 参考:
+    - reference/index.md
+    - 镜像:
+      - reference/image/index.md
+      - Notebook 标准镜像列表: reference/image/notebook-standard-image-list.md
+      # - Job 标准镜像列表: reference/image/job-standard-image-list.md
+      # - MLService 标准镜像列表: reference/image/mlservice-standard-image-list.md
+      - 在平台上构建镜像: reference/image/build-image-on-platform.md
+      - 构建 Notebook 自定义镜像: reference/image/build-notebook-custom-image.md
+      # - 构建 Job 自定义镜像: reference/image/build-job-custom-image.md
   - 工具:
     - tool/index.md
     - TensorStack CLI:
