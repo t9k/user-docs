@@ -193,8 +193,10 @@ nav:
       - 命令行工具: tool/codepack/cli.md
       - 示例: tool/codepack/example.md
 #   - 应用:
-#   - 博客:
-
+  - 博客:
+    - blog/index.md
+    - 2023:
+      - blog/2023/rclone-user-guide.md
 
 # Customization
 # extra:
