@@ -8,8 +8,8 @@
 | --------------------------------------------------------------- | ------------ | -------- |
 | [tensorflow-1.15.5-notebook-cpu](#tensorflow-1155-notebook-cpu) | TensorFlow 1 | CPU 镜像 |
 | [tensorflow-1.15.5-notebook-gpu](#tensorflow-1155-notebook-gpu) | TensorFlow 1 | GPU 镜像 |
-| [tensorflow-2.11.0-notebook-cpu](#tensorflow-2110-notebook-cpu) | TensorFlow 2 | CPU 镜像 |
-| [tensorflow-2.11.0-notebook-gpu](#tensorflow-2110-notebook-gpu) | TensorFlow 2 | GPU 镜像 |
+| [tensorflow-2.12.0-notebook-cpu](#tensorflow-2120-notebook-cpu) | TensorFlow 2 | CPU 镜像 |
+| [tensorflow-2.12.0-notebook-gpu](#tensorflow-2120-notebook-gpu) | TensorFlow 2 | GPU 镜像 |
 | [torch-1.13.1-notebook](#torch-1131-notebook)                   | PyTorch 1    |          |
 | [torch-2.0.0-notebook](#torch-200-notebook)                     | PyTorch 2    |          |
 
@@ -33,19 +33,19 @@
 | cuDNN   | 7.6.2.24 |
 | nvinfer | 5.1.5    |
 
-## tensorflow-2.11.0-notebook-cpu
+## tensorflow-2.12.0-notebook-cpu
 
-镜像基于 [`tensorflow/tensorflow:2.11.0-jupyter`:octicons-link-external-16:](https://hub.docker.com/layers/tensorflow/tensorflow/2.11.0-jupyter/images/sha256-553be1359899095780cfcfc5bf1c26bca487a606f07a37ba31e1808a98072785?context=explore){target=_blank}（[基础镜像介绍:octicons-link-external-16:](https://hub.docker.com/r/tensorflow/tensorflow){target=_blank}）。
+镜像基于 [`tensorflow/tensorflow:2.12.0-jupyter`:octicons-link-external-16:](https://hub.docker.com/layers/tensorflow/tensorflow/2.12.0-jupyter/images/sha256-c70fc19788a8c11dd3d81bbeb492deb72a2d67b1875759366b96ed6821264eca?context=explore){target=_blank}（[基础镜像介绍:octicons-link-external-16:](https://hub.docker.com/r/tensorflow/tensorflow){target=_blank}）。
 
-## tensorflow-2.11.0-notebook-gpu
+## tensorflow-2.12.0-notebook-gpu
 
-镜像基于 [`tensorflow/tensorflow:2.11.0-gpu-jupyter`:octicons-link-external-16:](https://hub.docker.com/layers/tensorflow/tensorflow/2.11.0-gpu-jupyter/images/sha256-fc519621eb9a54591721e9019f1606688c9abb329b16b00cc7107c23f14a6f24?context=explore){target=_blank}（[基础镜像介绍:octicons-link-external-16:](https://hub.docker.com/r/tensorflow/tensorflow){target=_blank}），故包含以下 NVIDIA GPU 库：
+镜像基于 [`tensorflow/tensorflow:2.12.0-gpu-jupyter`:octicons-link-external-16:](https://hub.docker.com/layers/tensorflow/tensorflow/2.12.0-gpu-jupyter/images/sha256-fffb1d07831e488af8372053342bfe8c77052e34d6e85dbe4a37b10a4f6072b0?context=explore){target=_blank}（[基础镜像介绍:octicons-link-external-16:](https://hub.docker.com/r/tensorflow/tensorflow){target=_blank}），故包含以下 NVIDIA GPU 库：
 
-| 库      | 版本     |
-| ------- | -------- |
-| CUDA    | 11.2     |
-| cuDNN   | 8.1.0.77 |
-| nvinfer | 7.2.2    |
+| 库      | 版本      |
+| ------- | --------- |
+| CUDA    | 11.8      |
+| cuDNN   | 8.6.0.163 |
+| nvinfer | 8.4.3     |
 
 ## torch-1.13.1-notebook
 
@@ -87,6 +87,7 @@
 
 ## 不再维护的 Notebook 标准镜像
 
-| 名称 | 主要环境 | 备注 |
-| ---- | -------- | ---- |
-|      |          |      |
+| 名称                           | 主要环境     | 备注     |
+| ------------------------------ | ------------ | -------- |
+| tensorflow-2.11.0-notebook-cpu | TensorFlow 2 | CPU 镜像 |
+| tensorflow-2.11.0-notebook-gpu | TensorFlow 2 | GPU 镜像 |
