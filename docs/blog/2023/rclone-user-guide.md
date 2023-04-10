@@ -4,13 +4,27 @@ title: Rclone 用户使用手册
 
 # Rclone 用户使用手册
 
-在使用 TensorStack AI 平台时，您可能会遇到需要在云存储服务之间或本地和云存储服务之间复制和移动数据的情况。为了帮助您更好地应对这些需求，本文将介绍 [Rclone:octicons-link-external-16:](https://rclone.org/) 的常见用法。
+在使用 TensorStack AI 平台时，您可能会遇到需要在不同的存储服务之间复制和移动数据的情况。本文介绍如何使用 [Rclone:octicons-link-external-16:](https://rclone.org/) 来应对这些需求。
 
 ## 简介
 
-Rclone 是一个用于管理云存储上文件的命令行程序。它能够在云端实现类似于 Unix 命令 rsync、cp、mv、mount、ls、ncdu、tree、rm 和 cat 的功能。
+Rclone 是一个用于管理存储系统上文件的命令行程序。它能够在云端实现类似于 Unix 命令 rsync、cp、mv、mount、ls、ncdu、tree、rm 和 cat 等的功能。
 
 Rclone 支持包括 S3、FTP、HTTP 在内的多种云存储 provider，见[列表:octicons-link-external-16:](https://rclone.org/#providers)。
+
+其基本语法如下：
+
+``` shell
+Syntax: [options] subcommand <parameters> <parameters...>
+```
+
+例如：
+
+``` shell
+rclone ls remote:path # lists a remote
+rclone copy /local/path remote:path # copies /local/path to the remote
+rclone sync --interactive /local/path remote:path # syncs /local/path to the remote
+```
 
 ## 安装和配置
 
@@ -31,7 +45,7 @@ sudo -v ; curl https://rclone.org/install.sh | sudo bash
 
 Rclone 的配置文件默认存放在 `$HOME/.config/rclone/rclone.conf` 路径下，您可以通过 `rclone config file` 命令获取配置文件的路径。我们提供两种方式来设置 rclone 配置文件。
 
-#### 直接编辑配置文件（推荐）
+#### 直接编辑配置文件
 
 Rclone 配置的云存储服务 provider 被称为 remote，您可以仿照下面的例子快速生成配置文件：
 
@@ -39,19 +53,20 @@ Rclone 配置的云存储服务 provider 被称为 remote，您可以仿照下�
 rclone config touch
 
 cat > $HOME/.config/rclone/rclone.conf <<EOF
-[ftp-remote-name]
+[cdc]
 type = ftp
-host = <your-host>
-user = <username>
-pass = <password-encoded>
+host = ftp.cdc.gov
+user = anonymous
+pass = x4cjd-uZkqTcWasprQqOeFjk5rR9
 
-[http-remote-name]
+# 注意：考虑网络情况，这里使用了第三方的 https://ghproxy.com 服务作为代理。
+[github]
 type = http
-url = https://<user>:<password>@example.com
+url = https://ghproxy.com/https://github.com
 
-[s3-remote-name]
+[corps3]
 type = s3
-provider = <s3-provider-name>
+provider = Ceph
 access_key_id = <your-access-key>
 secret_access_key = <your-secret-key>
 endpoint = <http[s]://your-s3-endpoint>
@@ -59,7 +74,13 @@ acl = private
 EOF
 ```
 
-这个配置文件中设置了三个 remote，分别是 FTP、HTTP、S3 类型。每个 remote 的信息都以 remote 名称作为开头，包括了 remote 的类型、地址、身份验证信息等内容。
+rclone 的配置文件采用 INI 文件格式，每个存储服务（remote）通过一个方括号标记的配置块定义，例如上文中的 `[cdc]` 和 `[corps3]`：
+
+* 方括号的 `key = value` 定义了这个 remoet 的其它属性，例如服务地址、用户、密码等；
+* `type` 是个特殊的 `key`，标识[存储系统:octicons-link-external-16:](https://rclone.org/overview/)，其中 `value` 是命令 `rclone help backends` 返回的内部小写名称。
+
+
+##### 常用 remote 的参数
 
 FTP 类型需要指定以下参数：
 
@@ -94,30 +115,7 @@ S3 类型需要指定以下参数：
 
 ## 命令行使用
 
-我们使用下面的 Rclone 配置文件进行演示：
-
-```
-[cdc]
-type = ftp
-host = ftp.cdc.gov
-user = anonymous
-pass = x4cjd-uZkqTcWasprQqOeFjk5rR9
-
-# 注意：考虑网络情况，这里使用了第三方的 https://ghproxy.com 服务作为代理。
-[github]
-type = http
-url = https://ghproxy.com/https://github.com
-
-[corps3]
-type = s3
-provider = Ceph
-access_key_id = <your-access-key>
-secret_access_key = <your-secret-key>
-endpoint = <http[s]://your-s3-endpoint>
-acl = private
-```
-
-接下来，我们将演示如何使用 Rclone 的 `ls` 和 `copy` 命令。`ls` 系列命令用于列出 remote 中的文件和目录，其格式为 `rclone ls remote:path`。`copy` 命令用于将文件从源位置复制到目标位置，其格式为 `rclone copy source:sourcepath dest:destpath`，其中 `source` 和 `dest` 都是在 Rclone 配置文件中定义的 remote 名称。
+使用上述 Rclone 配置文件， 我们演示如何使用 Rclone 的 `ls` 和 `copy` 命令。`ls` 系列命令用于列出 remote 中的文件和目录，其格式为 `rclone ls remote:path`。`copy` 命令用于将文件从源位置复制到目标位置，其格式为 `rclone copy source:sourcepath dest:destpath`，其中 `source` 和 `dest` 都是在 Rclone 配置文件中定义的 remote 名称。
 
 !!! note "注意"
     TensorStack Asset Hub 提供的 S3 凭证通常只包含一个 bucket 的只读/读写权限，在后面的使用中需要确认 S3 凭证具有目标 bucket 的写权限。
@@ -201,9 +199,7 @@ rclone copy -P --dry-run E:\ corps3:test/dir
 
 ## 工作流使用
 
-使用工作流将数据从一个远程仓库复制到另一个远程仓库，例如从公开 FTP 数据库复制数据到 S3 存储中。
-
-这里需要使用到工作流模板和工作流运行，它们的 YAML 文件保存在[附录](#附录)中。
+T9k 平台提供的工作流功能可以让我们更加可靠、系统的运行 rclone 进行数据复制、备份等工作。例如，将数据从一个远程仓库复制到另一个远程仓库，从公开 FTP 数据库复制数据到 S3 存储中等。
 
 ### 准备工作
 
@@ -212,6 +208,7 @@ rclone copy -P --dry-run E:\ corps3:test/dir
 首先获取配置文件的路径：
 
 ``` shell
+# 本地测试
 rclone config file
 ```
 
@@ -233,7 +230,7 @@ kubectl -n <project> create secret generic <secret> --from-file=rclone.conf=<rcl
 ``` shell
 $ kubectl -n <project> get secret <secret> -o jsonpath={.data."rclone\.conf"} | base64 -d
 
-# 输出 Rclone 配置文件的内容
+# 输出 Rclone 配置文件的内容；验证和本地的 config 一致
 [s3]
 type = s3
 provider = Ceph
@@ -313,7 +310,7 @@ kubectl -n <project> logs -l batch.tensorstack.dev/workflowRun=rclone-copy-run-d
 
 本示例使用到以下镜像：
 
-* `t9kpublic/rclone:latest`：Rclone 的镜像，也可以使用其他来源，例如 `bitnami/rclone:latest`。
+* `t9kpublic/rclone:latest`：Rclone 的镜像
 
 #### 运行资源
 
