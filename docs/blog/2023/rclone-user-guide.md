@@ -43,7 +43,7 @@ sudo -v ; curl https://rclone.org/install.sh | sudo bash
 
 ### 创建配置文件
 
-Rclone 的配置文件默认存放在 `$HOME/.config/rclone/rclone.conf` 路径下，您可以通过 `rclone config file` 命令获取配置文件的路径。我们提供两种方式来设置 rclone 配置文件。
+Rclone 的配置文件默认存放在 `$HOME/.config/rclone/rclone.conf` 路径下，您可以通过 `rclone config file` 命令获取配置文件的路径。下面介绍两种常用方式来设置 rclone 配置文件。
 
 #### 直接编辑配置文件
 
@@ -74,24 +74,25 @@ acl = private
 EOF
 ```
 
-rclone 的配置文件采用 INI 文件格式，每个存储服务（remote）通过一个方括号标记的配置块定义，例如上文中的 `[cdc]` 和 `[corps3]`：
+rclone 的配置文件采用 INI 文件格式，每个存储服务（remote）通过一个方括号标记的配置块定义，例如上文中的 `[cdc]`，`[github]` 和 `[corps3]`：
 
-* 方括号的 `key = value` 定义了这个 remoet 的其它属性，例如服务地址、用户、密码等；
+* 方括号的 `key = value` 定义了这个 remote 的其它属性，例如服务地址、用户、密码等；
 * `type` 是个特殊的 `key`，标识[存储系统:octicons-link-external-16:](https://rclone.org/overview/)，其中 `value` 是命令 `rclone help backends` 返回的内部小写名称。
 
+#### 通过命令行交互创建
 
-##### 常用 remote 的参数
+运行 `rclone config` 命令，交互式地生成配置文件。
+
+### 常用 remote 类型的参数
 
 FTP 类型需要指定以下参数：
 
-* `ftp-remote-name`：remote 的名称，前后需要添加方括号。
 * `host`：服务的地址。
 * `user`：用户名。
 * `pass`：使用 `rclone obscure` 命令加密后的密码。
 
 HTTP 类型需要指定以下参数：
 
-* `http-remote-name`：remote 的名称，前后需要添加方括号。
 * `url`：参考格式为 `https://<user>:<password>@example.com`，其中：
     * `https`：取决于具体的协议，可以是 `https` 或者 `http`。
     * `<user>`：用户名。
@@ -101,17 +102,12 @@ HTTP 类型需要指定以下参数：
 
 S3 类型需要指定以下参数：
 
-* `s3-remote-name`：remote 的名称，前后需要添加方括号。
-* `provider`：提供 S3 接口的底层服务，TensorStack Asset Hub 中使用的是 Ceph。
 * `access_key_id`：S3 access key，可以从 s3cfg 的 `access_key` 字段中获取。
 * `secret_access_key`：S3 secret key，可以从 s3cfg 的 `secret_key` 字段中获取。
 * `endpoint`：S3 endpoint，可以从 s3cfg 的 `host_base` 字段中获取。
 
 更多详情以及更多类型的存储技术支持，请参考 [https://rclone.org/#providers:octicons-link-external-16:](https://rclone.org/#providers)。
 
-#### 通过命令行交互创建
-
-运行 `rclone config` 命令，交互式地生成配置文件。
 
 ## 命令行使用
 
@@ -144,11 +140,11 @@ rclone lsl cdc:pub/FOIAREQ
 rclone copy -P cdc:pub/FOIAREQ/185661-508.pdf corps3:test
 ```
 
-从 FTP 复制文件夹中的所有文件到 S3 bucket `test` 中（dry-run）：
+从 FTP 复制文件夹中的所有文件到 S3 bucket `test` 中：
 
 ``` shell
 # --dry-run 选项用于不实际进行复制，只查看会复制的文件
-rclone copy -P --dry-run cdc:pub/FOIAREQ corps3:test/FOIAREQ
+rclone copy -P cdc:pub/FOIAREQ corps3:test/FOIAREQ
 ```
 
 查看 S3 bucket `test` 中的所有内容：
@@ -182,19 +178,19 @@ rclone copy -P corps3:test/185661-508.pdf corps3:pub
 rclone copy -P date.txt corps3:test
 ```
 
-从本地复制文件夹中的所有数据到 S3 的 bucket `test` 中（dry-run）：
+从本地复制文件夹中的所有数据到 S3 的 bucket `test` 中：
 
 ``` shell
-rclone copy -P --dry-run dir corps3:test/dir
+rclone copy -P dir corps3:test/dir
 ```
 
-Windows 中的用法（dry-run）：
+Windows 中的用法：
 
 ``` shell
-rclone copy -P --dry-run "E:\folder-name" corps3:test/dir
+rclone copy -P "E:\folder-name" corps3:test/dir
 
 # 使用盘符的根目录时，不要加引号
-rclone copy -P --dry-run E:\ corps3:test/dir
+rclone copy -P E:\ corps3:test/dir
 ```
 
 ## 工作流使用
@@ -203,16 +199,15 @@ T9k 平台提供的工作流功能可以让我们更加可靠、系统的运行 
 
 ### 准备工作
 
-通过工作流使用 Rclone 之前，建议您在本地配置并测试 Rclone 配置文件。
-
-首先获取配置文件的路径：
+通过工作流使用 Rclone 之前，建议您在本地配置并测试 Rclone 配置文件：
 
 ``` shell
-# 本地测试
+# 本地测试，确认 rclone 配置文件正确
 rclone config file
+rclone ls <...>
 ```
 
-然后在集群中创建 Secret 来记录远程存储的身份信息：
+然后在集群中创建 Secret 存储 rclone 的配置文件：
 
 ``` shell
 # 使用 Rclone 配置文件创建 secret，指定 data 中的 key 为 rclone.conf
@@ -233,7 +228,6 @@ $ kubectl -n <project> get secret <secret> -o jsonpath={.data."rclone\.conf"} | 
 # 输出 Rclone 配置文件的内容；验证和本地的 config 一致
 [s3]
 type = s3
-provider = Ceph
 access_key_id = <your-access-key>
 secret_access_key = <your-secret-key>
 endpoint = http://<your-host>
@@ -244,6 +238,7 @@ endpoint = http://<your-host>
 运行命令创建工作流模板：
 
 ``` shell
+# workflow.yaml 见附录
 kubectl apply -n <project> -f workflow.yaml
 ```
 
@@ -274,7 +269,7 @@ kubectl apply -n <project> -f workflow.yaml
 
 #### 通过命令行
 
-编辑 `workflowrun.yaml`，修改 `spec.params` 字段中下列参数的值：
+编辑 `workflowrun.yaml` (见附录)，修改 `spec.params` 字段中下列参数的值：
 
 * `source`：待复制的数据源，对应 `rclone copy` 命令中的 `source:sourcepath`。
 * `destination`：复制数据的目的地，对应 `rclone copy` 命令中的 `dest:destpath`。
@@ -288,20 +283,20 @@ kubectl apply -n <project> -f workflow.yaml
 ``` shell
 $ kubectl create -n <project> -f workflowrun.yaml
 
-workflowrun.batch.tensorstack.dev/rclone-copy-run-d8lqp created
+workflowrun.batch.tensorstack.dev/rclone-copy-run-<suffix> created
 ```
 
 监控 WorkflowRun 及其子资源的状态：
 
 ``` shell
 # 查看 WorkflowRun 状态
-kubectl -n <project> describe workflowrun.batch.tensorstack.dev rclone-copy-run-d8lqp
+kubectl -n <project> describe workflowrun.batch.tensorstack.dev rclone-copy-run-<suffix>
 
 # 查看 Pod 状态
-kubectl -n <project> get pod -l batch.tensorstack.dev/workflowRun=rclone-copy-run-d8lqp -w
+kubectl -n <project> get pod -l batch.tensorstack.dev/workflowRun=rclone-copy-run-<suffix> -w
 
 # 输出 Pod 日志
-kubectl -n <project> logs -l batch.tensorstack.dev/workflowRun=rclone-copy-run-d8lqp -f
+kubectl -n <project> logs -l batch.tensorstack.dev/workflowRun=rclone-copy-run-<suffix> -f
 ```
 
 ### 说明
