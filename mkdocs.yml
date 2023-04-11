@@ -104,6 +104,9 @@ nav:
             - 使用 Notebook: guide/develop-and-test-model/use-notebook.md
             # - T9k Notebook 的扩展功能: guide/develop-and-test-model/extended-functions.md
             - 通过 SSH 连接远程使用 Notebook: guide/develop-and-test-model/use-notebook-remotely-via-ssh-connection.md
+          - 管理辅助资源:
+            - guide/manage-auxiliary-resources/index.md
+            - 调试镜像: guide/manage-auxiliary-resources/run-image.md
   - 参考:
     - reference/index.md
     - 镜像:
