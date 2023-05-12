@@ -6,8 +6,6 @@
 
 | 名称                                                            | 主要环境     | 备注     |
 | --------------------------------------------------------------- | ------------ | -------- |
-| [tensorflow-1.15.5-notebook-cpu](#tensorflow-1155-notebook-cpu) | TensorFlow 1 | CPU 镜像 |
-| [tensorflow-1.15.5-notebook-gpu](#tensorflow-1155-notebook-gpu) | TensorFlow 1 | GPU 镜像 |
 | [tensorflow-2.12.0-notebook-cpu](#tensorflow-2120-notebook-cpu) | TensorFlow 2 | CPU 镜像 |
 | [tensorflow-2.12.0-notebook-gpu](#tensorflow-2120-notebook-gpu) | TensorFlow 2 | GPU 镜像 |
 | [torch-1.13.1-notebook](#torch-1131-notebook)                   | PyTorch 1    |          |
@@ -20,20 +18,6 @@
 2. 这些镜像会持续更新，直到相应机器学习框架的小版本更新后被新镜像替代，此时旧镜像会被移动到[不再维护的 Notebook 标准镜像](#不再维护的-notebook-标准镜像)列表中。镜像的标签（tag）是它的版本号，其跟随平台的版本号进行更新；镜像的每一次更新可能包含修复问题、更新包或工具、更新 Notebook 的扩展程序等内容。
 3. 标签中包含 `-sudo` 的镜像包含 `sudo` 命令，其中用户（`t9kuser`）的密码为 `tensorstack`。
 4. 如要自定义 Notebook 镜像，请参阅[构建 Notebook 自定义镜像](./build-notebook-custom-image.md)。
-
-## tensorflow-1.15.5-notebook-cpu
-
-镜像基于 [`tensorflow/tensorflow:1.15.5-jupyter`:octicons-link-external-16:](https://hub.docker.com/layers/tensorflow/tensorflow/1.15.5-jupyter/images/sha256-47aa058918aa7b09343c05ccbd23ccef976006a07b579143e9adde34a937b419?context=explore){target=_blank}（[基础镜像介绍:octicons-link-external-16:](https://hub.docker.com/r/tensorflow/tensorflow){target=_blank}）。
-
-## tensorflow-1.15.5-notebook-gpu
-
-镜像基于 [`tensorflow/tensorflow:1.15.5-gpu-jupyter`:octicons-link-external-16:](https://hub.docker.com/layers/tensorflow/tensorflow/1.15.5-gpu-jupyter/images/sha256-5f2338b5816cd73ea82233e2dd1ee0d8e2ebf539e1e8b5741641c1e082897521?context=explore){target=_blank}（[基础镜像介绍:octicons-link-external-16:](https://hub.docker.com/r/tensorflow/tensorflow){target=_blank}），故包含以下 NVIDIA GPU 库：
-
-| 库      | 版本     |
-| ------- | -------- |
-| CUDA    | 10.0     |
-| cuDNN   | 7.6.2.24 |
-| nvinfer | 5.1.5    |
 
 ## tensorflow-2.12.0-notebook-cpu
 
@@ -95,5 +79,7 @@
 
 | 名称                           | 主要环境     | 备注     |
 | ------------------------------ | ------------ | -------- |
+| tensorflow-1.15.5-notebook-cpu | TensorFlow 1 | CPU 镜像 |
+| tensorflow-1.15.5-notebook-gpu | TensorFlow 1 | GPU 镜像 |
 | tensorflow-2.11.0-notebook-cpu | TensorFlow 2 | CPU 镜像 |
 | tensorflow-2.11.0-notebook-gpu | TensorFlow 2 | GPU 镜像 |
