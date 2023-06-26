@@ -97,6 +97,8 @@ nav:
   - 模块:
     - AI 引擎层:
       - 模型构建:
+        - 概念:
+          - Notebook: module/building/notebook.md
         - 操作指南:
           - 开发和测试模型:
             - guide/develop-and-test-model/index.md
