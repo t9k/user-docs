@@ -5,66 +5,112 @@ title: t9k.ah.core.Branch
 # t9k.ah.core.Branch
 
 ```python
-Branch(asset: Union[t9k.ah.core.Model, t9k.ah.core.Dataset], name: str, id_: str)
+Branch(asset: Union[t9k.ah.core.Model, t9k.ah.core.Dataset], name: str, commit_id: str)
 ```
 
 Represents a branch of Asset.
 
 ## Attributes
 
-## Ancestors
+* **path** (*Any*)
 
-* `t9k.ah.core._Ref`
+    Path of the branch.
+
 * **asset** (*Any*)
 
-    A Model or Dataset instance corresponding to the Asset that the branch belongs to.
+    A `Model` or `Dataset` instance corresponding to the Asset that the branch belongs to.
 
-* **type** (*Any*)
+* **kind** (*Any*)
 
-    A string "branch".
+    A string `'branch'`.
 
-* **id** (*Any*)
-
-    ID of the commit that the branch points to.
-
-* **name** (*str*)
+* **name** (*Any*)
 
     Name of the branch.
 
+* **commit_id** (*str*)
+
+    ID of the commit that the branch points to.
+
+* **alive** (*Any*)
+
+    Whether the branch is alive.
+
+## Ancestors
+
+* `t9k.ah.core._Ref`
+
 ## Methods
-
-### create_commit
-
-```python
-create_commit(self, *args, **kwargs)
-```
 
 ### create_tag
 
 ```python
-create_tag(self, *args, **kwargs)
+create_tag(self, name: str) ‑> t9k.ah.core.Tag
 ```
+
+Creates a tag that points to this branch.
+
+#### Args
+
+* **name** (*str*)
+
+    Name of the tag.
+
+#### Returns
+
+A `Tag` instance representing created tag.
 
 ### delete
 
 ```python
-delete(self, *args, **kwargs)
+delete(self) ‑> None
 ```
 
-### download
-
-```python
-download(self, *args, **kwargs)
-```
+Deletes this branch.
 
 ### get_commit
 
 ```python
-get_commit(self, *args, **kwargs)
+get_commit(self, index: Optional[int] = None, id: Optional[str] = None) ‑> t9k.ah.core.Commit
 ```
 
-### list_commit
+Gets a commit of this branch.
+
+If neither `index` or `id` is provided, return the last commit. If both
+`index` and `id` are provided, `id` will not be used.
+
+#### Args
+
+* **index** (*Optional[int]*)
+
+    Index of the commit in this branch, `0` for the last commit, `-1` for the first commit.
+
+* **id** (*Optional[str]*)
+
+    A prefix of ID of the commit.
+
+#### Returns
+
+A `Commit` instance representing retrieved commit.
+
+### merge
 
 ```python
-list_commit(self, *args, **kwargs)
+merge(self) ‑> None
 ```
+
+Merges this branch to the main branch.
+
+Here, the specific operation of "merge" involves deleting all objects
+from the main branch and then copying all objects from this branch to
+the main branch.
+
+Note that this branch itself cannot be the main branch.
+
+### reset
+
+```python
+reset(self) ‑> None
+```
+
+Resets this branch to clear all uncommitted changes.

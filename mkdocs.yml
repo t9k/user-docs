@@ -133,12 +133,17 @@ nav:
         - tool/tensorstack-sdk/api/index.md
         - t9k.ah:
           - tool/tensorstack-sdk/api/t9k/ah/index.md
-          - create_folder: tool/tensorstack-sdk/api/t9k/ah/create_folder.md
-          - get_asset: tool/tensorstack-sdk/api/t9k/ah/get_asset.md
-          - get_folder: tool/tensorstack-sdk/api/t9k/ah/get_folder.md
-          - list_folder: tool/tensorstack-sdk/api/t9k/ah/list_folder.md
+          - commit: tool/tensorstack-sdk/api/t9k/ah/commit.md
+          - create: tool/tensorstack-sdk/api/t9k/ah/create.md
+          - delete: tool/tensorstack-sdk/api/t9k/ah/delete.md
+          - download: tool/tensorstack-sdk/api/t9k/ah/download.md
+          - get: tool/tensorstack-sdk/api/t9k/ah/get.md
+          - list: tool/tensorstack-sdk/api/t9k/ah/list.md
           - login: tool/tensorstack-sdk/api/t9k/ah/login.md
           - logout: tool/tensorstack-sdk/api/t9k/ah/logout.md
+          - merge: tool/tensorstack-sdk/api/t9k/ah/merge.md
+          - reset: tool/tensorstack-sdk/api/t9k/ah/reset.md
+          - update: tool/tensorstack-sdk/api/t9k/ah/update.md
         - t9k.ah.core:
           - tool/tensorstack-sdk/api/t9k/ah/core/index.md
           - Branch: tool/tensorstack-sdk/api/t9k/ah/core/Branch.md
@@ -147,32 +152,31 @@ nav:
           - Folder: tool/tensorstack-sdk/api/t9k/ah/core/Folder.md
           - Model: tool/tensorstack-sdk/api/t9k/ah/core/Model.md
           - Tag: tool/tensorstack-sdk/api/t9k/ah/core/Tag.md
-        - t9k.aimd:
-          - tool/tensorstack-sdk/api/t9k/aimd/index.md
-          - create_artifact: tool/tensorstack-sdk/api/t9k/aimd/create_artifact.md
-          - create_trial: tool/tensorstack-sdk/api/t9k/aimd/create_trial.md
-          - grab_artifact: tool/tensorstack-sdk/api/t9k/aimd/grab_artifact.md
-          - load_trial: tool/tensorstack-sdk/api/t9k/aimd/load_trial.md
-          - login: tool/tensorstack-sdk/api/t9k/aimd/login.md
-          - logout: tool/tensorstack-sdk/api/t9k/aimd/logout.md
-          - upload_artifact: tool/tensorstack-sdk/api/t9k/aimd/upload_artifact.md
-          - upload_trial: tool/tensorstack-sdk/api/t9k/aimd/upload_trial.md
-        - t9k.aimd.artifact:
-          - tool/tensorstack-sdk/api/t9k/aimd/artifact/index.md
-          - Artifact: tool/tensorstack-sdk/api/t9k/aimd/artifact/Artifact.md
-        - t9k.aimd.containers:
-          - tool/tensorstack-sdk/api/t9k/aimd/containers/index.md
-          - Params: tool/tensorstack-sdk/api/t9k/aimd/containers/Params.md
-        - t9k.aimd.keras:
-          - tool/tensorstack-sdk/api/t9k/aimd/keras/index.md
-          - AIMDEvalCallback: tool/tensorstack-sdk/api/t9k/aimd/keras/AIMDEvalCallback.md
-          - AIMDFitCallback: tool/tensorstack-sdk/api/t9k/aimd/keras/AIMDFitCallback.md
-        - t9k.aimd.lightning:
-          - tool/tensorstack-sdk/api/t9k/aimd/lightning/index.md
-          - AIMDCallback: tool/tensorstack-sdk/api/t9k/aimd/lightning/AIMDCallback.md
-        - t9k.aimd.trial:
-          - tool/tensorstack-sdk/api/t9k/aimd/trial/index.md
-          - Trial: tool/tensorstack-sdk/api/t9k/aimd/trial/Trial.md
+        - t9k.em:
+          - tool/tensorstack-sdk/api/t9k/em/index.md
+          - create_artifact: tool/tensorstack-sdk/api/t9k/em/create_artifact.md
+          - create_run: tool/tensorstack-sdk/api/t9k/em/create_run.md
+          - load_artifact: tool/tensorstack-sdk/api/t9k/em/load_artifact.md
+          - load_run: tool/tensorstack-sdk/api/t9k/em/load_run.md
+          - login: tool/tensorstack-sdk/api/t9k/em/login.md
+          - logout: tool/tensorstack-sdk/api/t9k/em/logout.md
+          - upload: tool/tensorstack-sdk/api/t9k/em/upload.md
+        - t9k.em.artifact:
+          - tool/tensorstack-sdk/api/t9k/em/artifact/index.md
+          - Artifact: tool/tensorstack-sdk/api/t9k/em/artifact/Artifact.md
+        - t9k.em.containers:
+          - tool/tensorstack-sdk/api/t9k/em/containers/index.md
+          - Params: tool/tensorstack-sdk/api/t9k/em/containers/Params.md
+        - t9k.em.keras:
+          - tool/tensorstack-sdk/api/t9k/em/keras/index.md
+          - EMEvalCallback: tool/tensorstack-sdk/api/t9k/em/keras/EMEvalCallback.md
+          - EMFitCallback: tool/tensorstack-sdk/api/t9k/em/keras/EMFitCallback.md
+        - t9k.em.lightning:
+          - tool/tensorstack-sdk/api/t9k/em/lightning/index.md
+          - EMCallback: tool/tensorstack-sdk/api/t9k/em/lightning/EMCallback.md
+        - t9k.em.run:
+          - tool/tensorstack-sdk/api/t9k/em/run/index.md
+          - Run: tool/tensorstack-sdk/api/t9k/em/run/Run.md
         - t9k.config:
           - tool/tensorstack-sdk/api/t9k/config/index.md
           - Config: tool/tensorstack-sdk/api/t9k/config/Config.md

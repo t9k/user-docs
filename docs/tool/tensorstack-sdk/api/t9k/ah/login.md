@@ -5,22 +5,26 @@ title: t9k.ah.login
 # t9k.ah.login
 
 ```python
-login(host: Optional[str] = None, api_key: Optional[str] = None, timeout: Optional[int] = None) ‑> None
+login(ah_host: Optional[str] = None, ais_host: Optional[str] = None, api_key: Optional[str] = None, timeout: Optional[int] = None) ‑> None
 ```
 
-Logs in to Asset Hub server.
+Logs in to AIStore server and Asset Hub server.
 
-Sets up the client that corresponds with Asset Hub server.
+Sets up the client that corresponds with AIStore server and Asset Hub server.
 
 ## Args
 
-* **host** (*Optional[str]*)
+* **ah_host** (*Optional[str]*)
 
-    URL of Asset Hub server. Defaults to server URL given by SDK config file if one is set.
+    URL of Asset Hub server. Defaults to `t9k.CONFIG['asset_hub_host']`.
+
+* **ais_host** (*Optional[str]*)
+
+    URL of AIStore server. Defaults to `t9k.CONFIG['aistore_host']`.
 
 * **api_key** (*Optional[str]*)
 
-    API Key for requesting server. Defaults to API Key given by SDK config file if one is set.
+    API Key for requesting server. Defaults to `t9k.CONFIG['api_key']`.
 
 * **timeout** (*Optional[int]*)
 
@@ -30,4 +34,4 @@ Sets up the client that corresponds with Asset Hub server.
 
 * **requests.HTTPError**
 
-    Unable to connect to server.
+    Unable to connect to the server.

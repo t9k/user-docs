@@ -10,16 +10,6 @@ Config()
 
 SDK config.
 
-## Static methods
-
-### make_config_file
-
-```python
-make_config_file()
-```
-
-Makes a default SDK config file.
-
 ## Methods
 
 ### get
@@ -33,24 +23,6 @@ get(self, key: str, default: Any = None) ‑> Any
 ```python
 items(self) ‑> ItemsView[str, Any]
 ```
-
-### load
-
-```python
-load(self) ‑> None
-```
-
-Loads from SDK config file.
-
-If SDK config file does not exist, make a default one.
-
-### save
-
-```python
-save(self) ‑> None
-```
-
-Saves to SDK config file.
 
 ### to_dict
 

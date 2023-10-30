@@ -5,48 +5,47 @@ title: t9k.ah.core.Tag
 # t9k.ah.core.Tag
 
 ```python
-Tag(asset: Union[t9k.ah.core.Model, t9k.ah.core.Dataset], name: str, id_: str)
+Tag(asset: Union[t9k.ah.core.Model, t9k.ah.core.Dataset], name: str, commit_id: str)
 ```
 
 Represents a tag of Asset.
 
 ## Attributes
 
-## Ancestors
+* **path** (*Any*)
 
-* `t9k.ah.core._Ref`
+    Path of the tag.
+
 * **asset** (*Any*)
 
-    A Model or Dataset instance corresponding to the Asset that the tag belongs to.
+    A `Model` or `Dataset` instance corresponding to the Asset that the tag belongs to.
 
-* **type** (*Any*)
+* **kind** (*Any*)
 
-    A string "tag".
+    A string `'tag'`.
 
-* **id** (*Any*)
-
-    ID of the commit that the tag points to.
-
-* **name** (*str*)
+* **name** (*Any*)
 
     Name of the tag.
 
+* **commit_id** (*str*)
+
+    ID of the commit that the tag points to.
+
+* **alive** (*Any*)
+
+    Whether the tag is alive.
+
+## Ancestors
+
+* `t9k.ah.core._Ref`
+
 ## Methods
-
-### create_tag
-
-```python
-create_tag(self, *args, **kwargs)
-```
 
 ### delete
 
 ```python
-delete(self, *args, **kwargs)
+delete(self) ‑> None
 ```
 
-### download
-
-```python
-download(self, *args, **kwargs)
-```
+Deletes this tag.

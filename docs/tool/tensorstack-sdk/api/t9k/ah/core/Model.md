@@ -5,7 +5,7 @@ title: t9k.ah.core.Model
 # t9k.ah.core.Model
 
 ```python
-Model(id_: str, folder: Folder, name: str, labels: Union[str, Sequence[str], None] = None)
+Model(id_: str, folder: t9k.ah.core.Folder, name: str, labels: List[str], description: str, extra: str)
 ```
 
 Represents a Model in server.
@@ -18,38 +18,50 @@ Represents a Model in server.
 
 ## Methods
 
-### create_branch
+### download
 
 ```python
-create_branch(self, *args, **kwargs)
+download(self, paths: Optional[Sequence[str]] = None, save_dir: str = '.') ‑> None
 ```
+
+Downloads objects of this Model.
+
+#### Args
+
+* **paths** (*Optional[Sequence[str]]*)
+
+    Files or directories to download from this Dataset, is a sequence of paths in Dataset. Here format `a/.../b` signifies a file while `a/.../b/` signifies a directory. Defaults to all objects.
+
+* **save_dir** (*str*)
+
+    Local directory which objects are downloaded to. If the directory does not exist, create it. Defaults to current working directory.
 
 ### get_branch
 
 ```python
-get_branch(self, *args, **kwargs)
+get_branch(self, name: str, verbose: bool = True) ‑> t9k.ah.core.Branch
 ```
 
-### get_commit
+Gets a branch of this Model.
+
+#### Args
+
+* **name** (*str*)
+
+    Name of the branch.
+
+* **verbose** (*bool*)
+
+    Whether to log error.
+
+#### Returns
+
+A `Branch` instance representing retrieved branch.
+
+### list_object
 
 ```python
-get_commit(self, *args, **kwargs)
+list_object(self) ‑> List[Dict[str, Any]]
 ```
 
-### get_tag
-
-```python
-get_tag(self, *args, **kwargs)
-```
-
-### list_branch
-
-```python
-list_branch(self, *args, **kwargs)
-```
-
-### list_tag
-
-```python
-list_tag(self, *args, **kwargs)
-```
+Lists objects of this Model.

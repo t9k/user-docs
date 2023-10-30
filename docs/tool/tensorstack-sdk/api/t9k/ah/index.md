@@ -6,9 +6,14 @@ Asset Hub API.
 
 **Functions**
 
-* [create_folder](./create_folder.md)
-* [get_asset](./get_asset.md)
-* [get_folder](./get_folder.md)
-* [list_folder](./list_folder.md)
+* [commit](./commit.md)
+* [create](./create.md)
+* [delete](./delete.md)
+* [download](./download.md)
+* [get](./get.md)
+* [list](./list.md)
 * [login](./login.md)
 * [logout](./logout.md)
+* [merge](./merge.md)
+* [reset](./reset.md)
+* [update](./update.md)
