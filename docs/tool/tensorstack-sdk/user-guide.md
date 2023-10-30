@@ -39,5 +39,5 @@ t9k.CONFIG.update({'api_key': 'e4ccd2a3-3425-44b0-8b44-148bd303a0f9'})
 
 TensorStack SDK 提供了两个命令行工具：
 
-* `aimd`：对应于 `t9k.aimd` 模块，用于用户登录和登出 AIMD 服务器（会修改配置文件）、查看和上传当前工作目录下保存的试验和 Artifact 数据。执行 `aimd --help` 和 `aimd COMMAND --help` 以查看相应命令的详细使用方法。
+* `em`：对应于 `t9k.em` 模块，用于用户登录和登出 EM 服务器（会修改配置文件）、查看和上传当前工作目录下保存的试验和 Artifact 数据。执行 `em --help` 和 `em COMMAND --help` 以查看相应命令的详细使用方法。
 * `ah`：对应于 `t9k.ah` 模块，用于用户登录和登出 Asset Hub 服务器（会修改配置文件），查看、创建、修改和删除资产和资产目录，以及上传、修改和下载资产文件。执行 `ah --help` 和 `ah COMMAND --help` 命令以查看相应命令的详细使用方法。

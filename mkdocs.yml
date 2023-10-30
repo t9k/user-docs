@@ -110,6 +110,24 @@ nav:
             - guide/manage-auxiliary-resources/index.md
             - 通过 PVC 使用 S3: guide/manage-auxiliary-resources/use-pvc-over-s3.md
             - 调试镜像: guide/manage-auxiliary-resources/run-image.md
+      - AI 资产管理:
+        - module/asset/index.md
+        - 操作指南:
+          - 操作 Folder 和 Asset: guide/manage-asset/manipulate-folder-and-asset.md
+          - 通过 S3 访问 Asset: guide/manage-asset/access-asset-by-s3.md
+          - 修改 Folder 和 Asset 的名称和标签: guide/manage-asset/rename-and-label-folder-and-asset.md
+          - 操作 Asset 的分支、tag 和 commit: guide/manage-asset/manipulate-branch-tag-and-commit-of-asset.md
+          - 操作 Asset 的对象: guide/manage-asset/manipulate-object-of-asset.md
+    - AI 基础层:
+      - 作业和工作流:
+        - module/workflow/index.md
+        - 作业:
+          - PyTorchTrainingJob: module/workflow/job/pytorchtrainingjob.md
+          - DeepSpeedJob: module/workflow/job/deepspeedjob.md
+        - 工作流:
+          - WorkflowTemplate: module/workflow/workflow/workflowtemplate.md
+          - WorkflowRun: module/workflow/workflow/workflowrun.md
+          - CronWorkflowRun: module/workflow/workflow/cronworkflowrun.md
   - 参考:
     - reference/index.md
     - 镜像:
