@@ -12,11 +12,73 @@ Represents a Model in server.
 
 ## Attributes
 
+* **path** (*str*)
+
+    Path of the Model in server.
+
+* **id** (*str*)
+
+    ID of the Model in server.
+
+* **folder** (*t9k.ah.core.Folder*)
+
+    A `Folder` instance corresponding to the Folder that the Model belongs to.
+
+* **kind** (*str*)
+
+    A string `'Model'`.
+
+* **name** (*str*)
+
+    Name of the Model.
+
+* **labels** (*List[str]*)
+
+    Labels of the Model.
+
+* **description** (*str*)
+
+    Description of the Model.
+
+* **extra** (*str*)
+
+    Extra information about the Model.
+
+* **alive** (*bool*)
+
+    Whether the Model is alive.
+
 ## Ancestors
 
-* `t9k.ah.core._Asset`
+* `t9k.ah.core._Model`
 
 ## Methods
+
+### create_branch
+
+```python
+create_branch(self, name: str) ‑> t9k.ah.core.Branch
+```
+
+Creates an empty branch of this Model.
+
+#### Args
+
+* **name** (*str*)
+
+    Name of the branch.
+
+#### Returns
+
+A `Branch` instance representing created branch.
+
+### delete
+
+```python
+delete(self) ‑> None
+```
+
+Deletes this Model.
 
 ### download
 
@@ -58,6 +120,57 @@ Gets a branch of this Model.
 
 A `Branch` instance representing retrieved branch.
 
+### get_commit
+
+```python
+get_commit(self, id: str) ‑> t9k.ah.core.Commit
+```
+
+Gets a commit of this Model.
+
+If no commit matches `id`, or two or more commits matche `id`,
+raise a `RuntimeError`.
+
+#### Args
+
+* **id** (*str*)
+
+    A prefix of ID of the commit.
+
+#### Returns
+
+A `Commit` instance representing retrieved commit.
+
+### get_tag
+
+```python
+get_tag(self, name: str, verbose: bool = True) ‑> t9k.ah.core.Tag
+```
+
+Gets a tag of this Model.
+
+#### Args
+
+* **name** (*str*)
+
+    Name of the tag.
+
+* **verbose** (*bool*)
+
+    Whether to log error.
+
+#### Returns
+
+A `Tag` instance representing retrieved tag.
+
+### list_branch
+
+```python
+list_branch(self) ‑> List[Dict[str, Any]]
+```
+
+Lists branches in this Model.
+
 ### list_object
 
 ```python
@@ -65,3 +178,35 @@ list_object(self) ‑> List[Dict[str, Any]]
 ```
 
 Lists objects of this Model.
+
+### list_tag
+
+```python
+list_tag(self) ‑> List[Dict[str, Any]]
+```
+
+Lists tags of this Model.
+
+### update
+
+```python
+update(self, name: Optional[str] = None, labels: Optional[Sequence[str]] = None, description: Optional[str] = None) ‑> None
+```
+
+Updates the metadata of this Model.
+
+If none of the args is provided, do nothing.
+
+#### Args
+
+* **name** (*Optional[str]*)
+
+    New name of this Model.
+
+* **labels** (*Optional[Sequence[str]]*)
+
+    New labels of this Model.
+
+* **description** (*Optional[str]*)
+
+    New description of this Model.

@@ -50,6 +50,37 @@ Represents a Asset Hub Folder in server.
 
 ## Methods
 
+### create_asset
+
+```python
+create_asset(self, name: str, labels: Optional[Sequence[str]] = None, description: str = '', exist_ok: bool = False) ‑> Union[t9k.ah.core.Model, t9k.ah.core.Dataset]
+```
+
+Creates an Asset in this Folder.
+
+#### Args
+
+* **name** (*str*)
+
+    Name of the Asset.
+
+* **labels** (*Optional[Sequence[str]]*)
+
+    Labels of the Asset.
+
+* **description** (*str*)
+
+    Description of the Asset.
+
+* **exist_ok** (*bool*)
+
+    If True and Asset with `name` already exists, return a `Model` or `Dataset` instance representing this Asset; if False and Asset exists, raise a `RuntimeError`.
+
+#### Returns
+
+A `Model` or `Dataset` instance representing created Model or
+Dataset, depending on Asset kind of this Folder.
+
 ### delete
 
 ```python

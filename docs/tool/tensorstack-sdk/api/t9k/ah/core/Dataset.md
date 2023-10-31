@@ -12,31 +12,31 @@ Represents a Dataset in server.
 
 ## Attributes
 
-* **path** (*Any*)
+* **path** (*str*)
 
     Path of the Dataset in server.
 
-* **id** (*Any*)
+* **id** (*str*)
 
     ID of the Dataset in server.
 
-* **folder** (*Any*)
+* **folder** (*t9k.ah.core.Folder*)
 
     A `Folder` instance corresponding to the Folder that the Dataset belongs to.
 
-* **kind** (*Any*)
+* **kind** (*str*)
 
     A string `'Dataset'`.
 
-* **name** (*Any*)
+* **name** (*str*)
 
     Name of the Dataset.
 
-* **labels** (*Any*)
+* **labels** (*List[str]*)
 
     Labels of the Dataset.
 
-* **description** (*Any*)
+* **description** (*str*)
 
     Description of the Dataset.
 
@@ -44,19 +44,83 @@ Represents a Dataset in server.
 
     ID of the commit that the main branch points to.
 
-* **extra** (*Any*)
+* **extra** (*str*)
 
     Extra information about the Dataset.
 
-* **alive** (*Any*)
+* **alive** (*bool*)
 
     Whether the Dataset is alive.
 
 ## Ancestors
 
-* `t9k.ah.core._Asset`
+* `t9k.ah.core._Dataset`
 
 ## Methods
+
+### create_commit
+
+```python
+create_commit(self, msg: str, delete: Optional[Sequence[str]] = None, add: Union[Sequence[str], Mapping[str, str], None] = None) ‑> Optional[t9k.ah.core.Commit]
+```
+
+Commits changes to this Dataset.
+
+First delete, then add.
+
+#### Examples
+
+Add a file as object to this Dataset:
+```python
+dataset.create_commit(msg='add ...', add=['0.png'])
+```
+
+Specify a path in Dataset for an object to add:
+```python
+dataset.create_commit(msg='add ...', add={'0.png': 'data/'})
+```
+
+Add all files under a directory as objects:
+```python
+dataset.create_commit(msg='add ...', add=['./data'])
+```
+
+Delete an object from this Dataset:
+```python
+dataset.create_commit(msg='delete ...', delete=['0.png'])
+```
+
+Delete all objects under the specified path:
+```python
+dataset.create_commit(msg='delete ...', delete=['data/'])
+```
+
+#### Args
+
+* **msg** (*str*)
+
+    Commit message.
+
+* **delete** (*Optional[Sequence[str]]*)
+
+    Files or directories to delete from the Dataset, can be a sequence of paths in Dataset or `None`. If empty sequence or `None`, delete nothing. If the files or directories to delete do not exist, do nothing (rather than raise an error). Here format `a/.../b` signifies a file, while `a/.../b/` signifies a directory.
+
+* **add** (*Union[Sequence[str], Mapping[str, str], None]*)
+
+    Files or directories to add to the Dataset, can be a sequence of local paths, a mapping from local paths to their paths in Dataset, or `None`. If empty sequence, empty mapping or `None`, add nothing.
+
+#### Returns
+
+A `Commit` instance representing created commit if changes are
+commited, `None` if not.
+
+### delete
+
+```python
+delete(self) ‑> None
+```
+
+Deletes this Dataset.
 
 ### download
 
@@ -101,6 +165,36 @@ If neither `index` or `id` is provided, return the last commit. If both
 
 A `Commit` instance representing retrieved commit.
 
+### get_tag
+
+```python
+get_tag(self, name: str, verbose: bool = True) ‑> t9k.ah.core.Tag
+```
+
+Gets a tag of this Dataset.
+
+#### Args
+
+* **name** (*str*)
+
+    Name of the tag.
+
+* **verbose** (*bool*)
+
+    Whether to log error.
+
+#### Returns
+
+A `Tag` instance representing retrieved tag.
+
+### list_branch
+
+```python
+list_branch(self) ‑> List[Dict[str, Any]]
+```
+
+Lists branches in this Dataset.
+
 ### list_commit
 
 ```python
@@ -116,3 +210,35 @@ list_object(self) ‑> List[Dict[str, Any]]
 ```
 
 Lists objects of this Dataset.
+
+### list_tag
+
+```python
+list_tag(self) ‑> List[Dict[str, Any]]
+```
+
+Lists tags of this Dataset.
+
+### update
+
+```python
+update(self, name: Optional[str] = None, labels: Optional[Sequence[str]] = None, description: Optional[str] = None) ‑> None
+```
+
+Updates the metadata of this Dataset.
+
+If none of the args is provided, do nothing.
+
+#### Args
+
+* **name** (*Optional[str]*)
+
+    New name of this Dataset.
+
+* **labels** (*Optional[Sequence[str]]*)
+
+    New labels of this Dataset.
+
+* **description** (*Optional[str]*)
+
+    New description of this Dataset.
