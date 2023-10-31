@@ -68,7 +68,7 @@ markdown_extensions:
   - pymdownx.mark # optional, enable mark with double '=='
   - pymdownx.superfences # allow for nesting of code and content blocks inside admonitions
   - pymdownx.tabbed # enable tabbed contents
-    # refet to https://squidfunk.github.io/mkdocs-material/reference/content-tabs/
+    # refer to https://squidfunk.github.io/mkdocs-material/reference/content-tabs/
   - pymdownx.tilde # optional, enable strikethrough with double '~~', subscript with connected '~'
   - toc: # Table of contents extension
       permalink: true # add an anchor link at the end of each headline
@@ -81,7 +81,16 @@ markdown_extensions:
 plugins:
   - git-revision-date # display date last updated at bottom of page for proofreading
     # refer to https://squidfunk.github.io/mkdocs-material/setup/adding-a-git-repository/?h=git+rev#revision-date
-  - search # enable search
+  - search: # enable search
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  - tags # enable tag
+  - blog: # enable blog
+      post_url_format: "{date}/{file}"
+      post_excerpt: required # post excerpt is required
+      archive: false # disable archive for too few posts
+      # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/#archive
+      categories: false # disable categories for too few posts
+      # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/#categories
 
 # Page Tree
 nav:
@@ -223,8 +232,6 @@ nav:
 #   - 应用:
   - 博客:
     - blog/index.md
-    - 2023:
-      - blog/2023/rclone-user-guide.md
 
 # Customization
 # extra:
