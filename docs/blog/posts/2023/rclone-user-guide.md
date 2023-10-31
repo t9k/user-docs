@@ -1,10 +1,18 @@
 ---
 title: Rclone 用户使用手册
+date: 2023-04-11
+tags:
+  - Rclone
+  - 文件管理
+authors:
+  - skj
 ---
 
 # Rclone 用户使用手册
 
 在使用 TensorStack AI 平台时，您可能会遇到需要在不同的存储服务之间复制和移动数据的情况。本文介绍如何使用 [Rclone:octicons-link-external-16:](https://rclone.org/) 来应对这些需求。
+
+<!-- more -->
 
 ## 简介
 
