@@ -55,8 +55,8 @@ markdown_extensions:
   - pymdownx.caret # optional, enable underline with double '^^', superscript with connected '^'
   - pymdownx.details # make admonitions collapsible
   - pymdownx.emoji: # optional, enable Emoji extension, which enables *.svg icons to be integrated inline
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
       options: # add additional *.svg icons
         custom_icons:
           - overrides/.icons
@@ -147,6 +147,20 @@ nav:
       - 在平台上构建镜像: reference/image/build-image-on-platform.md
       - 构建 Notebook 自定义镜像: reference/image/build-notebook-custom-image.md
       # - 构建 Job 自定义镜像: reference/image/build-job-custom-image.md
+    - API:
+      - reference/api/index.md
+      - Build Console:
+        - reference/api/build-console/index.md
+        - Job:
+          - reference/api/build-console/jobs/index.md
+          - GenericJob: reference/api/build-console/jobs/genericjob.md
+          - TensorFlowTrainingJob: reference/api/build-console/jobs/tensorflowtrainingjob.md
+          - PyTorchTrainingJob: reference/api/build-console/jobs/pytorchtrainingjob.md
+          - XGBoostTrainingJob: reference/api/build-console/jobs/xgboosttrainingjob.md
+          - ColossalAIJob: reference/api/build-console/jobs/colossalaijob.md
+          - DeepSpeedJob: reference/api/build-console/jobs/deepspeedjob.md
+          - MPIJob: reference/api/build-console/jobs/mpijob.md
+        - TensorBoard: reference/api/build-console/tensorboard.md
   - 工具:
     - tool/index.md
     - TensorStack CLI:
