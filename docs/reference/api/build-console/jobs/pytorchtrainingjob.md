@@ -1,351 +1,144 @@
-# PyTorchTrainingJob
+# API Reference
 
-## PyTorchTrainingJob
+## Packages
+- [batch.tensorstack.dev/v1beta1](#batchtensorstackdevv1beta1)
 
-PyTorchTrainingJob enables running distributed machine learning training tasks in Kubernetes using PyTorch.
 
-* **apiVersion**: batch.tensorstack.dev/v1beta1
-* **kind**: PyTorchTrainingJob
-* **metadata** ([*ObjectMeta*](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/#ObjectMeta))
+## batch.tensorstack.dev/v1beta1
 
-  	Standard object's metadata. More info: [https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata)
+Package v1beta1 contains API Schema definitions for the batch v1beta1 API group
 
-* **spec** ([*PyTorchTrainingJobSpec*](#pytorchtrainingjobspec))
+### Resource Types
+- [PyTorchTrainingJob](#pytorchtrainingjob)
+- [PyTorchTrainingJobList](#pytorchtrainingjoblist)
 
-  	Specification of the desired behavior of the PyTorchTrainingJob
-  
-* **status** ([*PyTorchTrainingJobStatus*](#pytorchtrainingjobstatus))
 
-  	Most recently observed status of the PyTorchTrainingJob
 
-## PyTorchTrainingJobSpec
+#### ElasticConfig
 
-PyTorchTrainingJobSpec is the specification of the desired behavior of the PyTorchTrainingJob.
 
-* **replicaSpecs** (*[]ReplicaSpec*), required
 
-    Describes the spec of the replicas that the job consists of.
+Configuration governing the elastic scaling behavior of the job.
 
-    *ReplicaSpec* describes the spec of a replica.
+_Appears in:_
+- [PyTorchTrainingJobSpec](#pytorchtrainingjobspec)
 
-    * **type** (*string*), required
+| Field | Description |
+| --- | --- |
+| `enabled` _boolean_ | Set true to use elastic training. |
+| `minReplicas` _integer_ | The minimum number of replicas to start to run this elastic compute. The autoscaler cannot scale down an elastic job below this number. This value cannnot be changed once the job is created. |
+| `maxReplicas` _integer_ | The maximum number of replicas to start to run this elastic compute. The autoscaler cannot scale up an elastic job over this number. This value cannnot be changed once the job is created. |
+| `expectedReplicas` _integer_ | Number of replicas to be created. This number can be set to an initial value upon creation. This value can be modified dynamically by an external entity, such as a user or an autoscaler, to scale the job up or down. |
 
-        The type of the replica, one of "master" or "worker".
 
-    * **replicas** (*int32*)
 
-        The desired number of replicas created from the given template. If unspecified, defaults to 1.
 
-    * **template** (*[PodTemplateSpec](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-template-v1/#PodTemplateSpec)*)
+#### PyTorchTrainingJob
 
-        Describes the pod that will be created for this replica. Note that **restartPolicy** in *PodTemplateSpec* will be overidden by **restartPolicy** in *ReplicaSpec*.
 
-    * **restartPolicy** (*string*)
 
-        The restart policy for this replica, one of Always, OnFailure, Never, or ExitCode. Defaults to Never.
+PyTorchTrainingJob is the Schema for the pytorchtrainingjobs API.
 
-    * **scalingWeight** (*int*)
-        
-        When the elastic training mode is enabled, the controller will allocate the number of replicas for each type based on the scalingWeight.
+_Appears in:_
+- [PyTorchTrainingJobList](#pytorchtrainingjoblist)
 
-* **tensorboardSpec** (*[TensorBoardSpec](../tensorboard.md#tensorboardspec)*)
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `batch.tensorstack.dev/v1beta1`
+| `kind` _string_ | `PyTorchTrainingJob`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[PyTorchTrainingJobSpec](#pytorchtrainingjobspec)_ |  |
+| `status` _[PyTorchTrainingJobStatus](#pytorchtrainingjobstatus)_ |  |
 
-    Describes the Tensorboard to be created for showing training logs.
 
-* **runMode** (*RunMode*)
+#### PyTorchTrainingJobList
 
-    PyTorchTrainingJob can run in three modes: normal, debug and pause. Normal - run the job; debug - create training environment but not train; pause - keep the PyTorchTrainingJob CR but not create the workload.
 
-    *RunMode* tells which mode to use and how the job works in this mode.
 
-    * **debug** (*DebugMode*)
-   
-        *DebugMode* describes how the debug mode works.
+PyTorchTrainingJobList contains a list of PyTorchTrainingJob
 
-        * **enable** (*bool*)
 
-            Whether to enable DebugMode, defaults to false.
 
-        * **replicaSpecs** (*[]ReplicaDebugSet*)
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `batch.tensorstack.dev/v1beta1`
+| `kind` _string_ | `PyTorchTrainingJobList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[PyTorchTrainingJob](#pytorchtrainingjob) array_ |  |
 
-            Describe how to start replicas in debug mode.
 
-            *ReplicaDebugSet* describe how to start a replica in debug mode.
+#### PyTorchTrainingJobSpec
 
-            * **type** (*string*), required
 
-                The type of the replica, one of "master" or "worker".
 
-            * **skipInitContainer** (*bool*)
+PyTorchTrainingJobSpec outlines the intended configuration and execution parameters for a PyTorchTrainingJo.
 
-                Whether to skip initContainer.
+_Appears in:_
+- [PyTorchTrainingJob](#pytorchtrainingjob)
 
-            * **command** (*[]string*)
+| Field | Description |
+| --- | --- |
+| `replicaSpecs` _[ReplicaSpec](#replicaspec) array_ | An array of ReplicaSpec. Specifies the pytorch cluster configuration. |
+| `elastic` _[ElasticConfig](#elasticconfig)_ | Configurations for how to launch an elastic training. Elastic training is effective only in torchrun mode. |
+| `torchrunConfig` _[TorchrunConfig](#torchrunconfig)_ | Whether and how to use torchrun to launch a training process. |
+| `runMode` _[RunMode](#runmode)_ | Job's execution behavior. If omitted, defaults to `Immediate` mode, and tasks are executed immediately upon submission. |
+| `runPolicy` _[RunPolicy](#runpolicy)_ | Execution policy configurations governing the behavior of a PytorchTrainingJob. |
+| `tensorboardSpec` _TensorBoardSpec_ | If specified, controller will create a Tensorboard for showing training logs. |
+| `scheduler` _SchedulePolicy_ | Identifies the preferred scheduler for allocating resources to replicas. Defaults to cluster default scheduler. |
 
-                Command to execute in the replica, default 'sleep inf'.
 
-    * **pause** (*PauseMode*)
-   
-        *PauseMode* describes how the debug mode works.
+#### PyTorchTrainingJobStatus
 
-        * **enable** (*bool*)
 
-            Whether to enable pause mode, defaults to false.
 
-        * **resumeSpecs** (*[]ResumeSpec*)
+PyTorchTrainingJobStatus defines the observed state of PyTorchTrainingJob.
 
-            Describe how to resume replicas from pause mode.
+_Appears in:_
+- [PyTorchTrainingJob](#pytorchtrainingjob)
 
-            *ResumeSpec* describe how to restart replicas from pause mode.
+| Field | Description |
+| --- | --- |
+| `tasks` _[Tasks](#tasks) array_ | The status details of individual tasks. |
+| `tensorboard` _DependentStatus_ | The status of the tensorboard. |
+| `backoffCount` _integer_ | The number of restarts having been performed. |
+| `aggregate` _[Aggregate](#aggregate)_ | The number of tasks in each state. |
+| `conditions` _[JobCondition](#jobcondition) array_ | The latest available observations of an object's current state. |
+| `phase` _JobPhase_ | Provides a simple, high-level summary of where the Job is in its lifecycle. Note that this is NOT indended to be a comprehensive state machine. |
 
-            * **type** (*string*), required
 
-                The type of the replica, one of "master" or "worker".
+#### ReplicaSpec
 
-            * **skipInitContainer** (*bool*)
 
-                Whether to skip initContainer.
 
-            * **command** (*[]string*)
+ReplicaSpec is a description of the job replica.
 
-                Command to execute in the replica. Use spec.replicaSpecs.template.container.command by default.
+_Appears in:_
+- [PyTorchTrainingJobSpec](#pytorchtrainingjobspec)
 
-            * **args** (*[]string*)
+| Field | Description |
+| --- | --- |
+| `type` _string_ | ReplicaType is the type of the replica. |
+| `replicas` _integer_ | The desired number of replicas of the current template. Defaults to 1. |
+| `scalingWeight` _integer_ | Scaling weight of the current replica used in elastic training. |
+| `template` _[PodTemplateSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#podtemplatespec-v1-core)_ | Describes the pod that will be created for this replica. Note that `RestartPolicy` in `PodTemplateSpec` will always be set to `Never` as the job controller will decide if restarts are desired. |
+| `restartPolicy` _RestartPolicy_ | Restart policy for all replicas within the job. One of `Always`, `OnFailure`, `Never`, or `ExitCode`. |
 
-                Command args. Use spec.replicaSpecs.template.container.command by default.
 
-* **runPolicy** (*RunPolicy*)
+#### TorchrunConfig
 
-    Specifies various rules for managing the running of a PyTorchTrainingJob.
 
-    *RunPolicy* encapsulates various runtime policies of the distributed training job, for example how to clean up resources and how long the job can stay active.
 
-    * **activeDeadlineSeconds** (*int64*)
+Describes how to launch pytorch training with torchrun.
 
-        Specifies the duration in seconds relative to the startTime that the job may be active before the system tries to terminate it; value must be positive integer.
+_Appears in:_
+- [PyTorchTrainingJobSpec](#pytorchtrainingjobspec)
 
-    * **backoffLimit** (*int32*)
+| Field | Description |
+| --- | --- |
+| `enabled` _boolean_ | Set true to use torchrun launch pytorch training. |
+| `maxRestarts` _integer_ |  |
+| `procPerNode` _string_ | Number of processes to be started on every replica. |
+| `rdzvBackend` _string_ | Communication backed used for the group. Defaults to `c10d`. |
+| `extraOptions` _string array_ | Extra options for torchrun. |
 
-        Optional number of retries before marking this job failed.
 
-    * **cleanUpPolicy** (*string*)
-
-        Clean the tasks after the training job finished, one of "All", "Unfinished" or "None".
-
-* **scheduler** (*SchedulerPolicy*)
-
-    Choose the appropriate Scheduler to schedule replicas. Can be K8s Default Scheduler and T9k Scheduler. Default use K8s Defaule Scheduler.
-
-    *SchedulerPolicy* assign the replicas to a specific scheduler.
-
-    * **t9kScheduler** (*T9kScheduler*)
-
-        T9k Scheduler configuration.
-
-        *T9kScheduler* descibes the PodGroup that will be created.
-
-        * **Queue** (*string*), required
-
-            T9k Scheduler Queue name. All T9k Scheduler PodGroups should work in a Queue.
-        
-        * **priority** (*int32*)
-
-            Indicates the PodGroup's priority. range is [0,100]. Default 10.
-
-* **elastic** (*ElasticConfig*)
-
-    Adjust job scale dynamically.
-
-    *ElasticConfig* describe the elastic config of PyTorchTrainingJob.
-
-    * **enable** (*bool*)
-
-        Whether to eable elastic mode.
-
-    * **minReplicas** (*int*)
-
-        The minimum number of running nodes in elastic mode.
-
-    * **maxReplicas** (*int*)
-
-        The maximum number of running nodes in elastic mode.
-
-    * **expectedReplicas** (*int*)
-
-        The expected number of running nodes in elastic mode.
-
-* **torchrunConfig** (*TorchrunConfig*)
-    
-    PyTorch provides a tool - torchrun(torch.distributed.run) - to launcher pytorch training. Set this config to use torchrun to launch pytorch training.
-
-    *TorchrunConfig* set torchrun args.
-
-    * **enable** (*bool*)
-
-        Whether to use torchrun to launcher pytorch training or not.
-
-    * **maxRestarts** (*int*)
-    
-    * **procPerNode** (*string*)
-
-        Processes num executed on every replica.
-    
-    * **rdzvBackend** (*string*)
-    
-    * **extraOptions** (*[]string*)
-
-## PyTorchTrainingJobStatus
-
-PyTorchTrainingJobStatus is the most recently observed status of the PyTorchTrainingJob.
-
-* **tasks** (*[]TaskStatus*)
-
-    The statuses of individual tasks.
-
-    *TaskStatus* defines the observed state of the task.
-
-    * **type** (*string*)
-
-        Type of the replica.
-
-    * **restartCount** (*int16*)
-
-        The times the pod restart.
-
-    * **replicaStatus** (*[]ReplicaStatus*)
-      
-        Status of relica.
-      
-        *ReplicaStatus* Describe observed state of the replica.
-
-        * **name** (*string*)
-
-          	Sub-resource's name used to distinguish sub-resources. It isn't K8s resource name.
-
-        * **uid** (*string*)
-
-          	UID of replica.
-
-        * **phase** (*string*)
-
-          	Phase of the pod, one of Pending, Running, Succeeded, Failed or Unknown.
-
-        * **containers** (*[]ContainerStatus*)
-
-            Status of the containers in the pod.
-
-            *ContainerStatus* defines the observed state of the container.
-
-            * **name** (*string*)
-    
-              	Sub-resource's name used to distinguish sub-resources. It isn't K8s resource name.
-    
-            * **state** (*string*)
-    
-              	State of container.
-    
-            * **exitCode** (*int32*)
-    
-            	Exit code of the container if it is terminated.
-
-* **tensorboard** (*DependentStatus*)
-
-    The status of the tensorboard if there is one.
-
-    *DependentStatus* is the status of a K8s dependent object.
-
-    * **name** (*string*)
-
-      	Sub-resource's name used to distinguish sub-resources. It isn't K8s resource name.
-
-    * **dependent** (*[ObjectReference](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-reference/)*)
-
-      	Refers to a K8s resource.
-
-    * **ready** (*bool*)
-
-      	Whether the sub-resource is ready to work.
-
-    * **reason** (*string*)
-
-      	The reason why the sub-resource is in this status.
-
-    * **action** (*string*)
-
-      	An action for reconciling a dependent.
-
-    * **note** (*string*)
-
-      	A note that gives more information about this status.
-
-    * **type** (*string*)
-
-      	Status type, one of Normal or Warning.
-
-* **backoffCount** (*int32*)
-
-  	The number of restarts being performed.
-
-* **aggregate** (*Aggregate*)
-  
-  	The number of tasks in each state.
-
-  	*Aggregate* count the number of tasks in each state.
-
-    * **creating** (*int32*)
-
-      	The number of tasks in unknown state (Pod is not available).
-
-  	* **pending** (*int32*)
-
-    	The number of tasks in pending state (Pod is in waiting state).
-
-  	* **running** (*int32*)
-
-    	The number of tasks in running state (Pod is in running state).
-
-  	* **succeeded** (*int32*)
-
-    	The number of tasks in succeeded state (Pod is terminated with exit code =  0).
-
-    * **failed** (*int32*)
-
-  		The number of tasks in failed state (Pod is terminated with exit code != 0).
-
-    * **unknown** (*int32*)
-
-		The number of tasks in unknown state (Pod is not available).
-
-	* **deleted** (*int32*)
-
-		The number of tasks in deleted state (Pod is deleted).
-
-* **conditions** (*[]JobCondition*)
-
-  	Represents the latest available observations of a PyTorchTrainingJob's current state.
-
-  	*JobCondition* is an observation of the condition of the PyTorchTrainingJob.
-
-    * **type** (*string*)
-
-      	Type of Job condition.
-
-    * **status** (*string*)
-
-      	Status of the condition, one of True, False, or Unknown.
-
-    * **reason** (*string*)
-
-      	The reason for the condition's last transition.
-
-    * **message** (*string*)
-
-      	A readable message indicating details about the transition.
-
-    * **lastTransitionTime** (*string*)
-
-      	Last time the condition transitioned from one status to another.
-
-* **phase** (*string*)
-
-  	Defines all possible phases of training, one of Pending, Running, Paused, Resuming, Succeeded, Failed or Unknown.
