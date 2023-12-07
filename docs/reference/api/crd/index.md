@@ -1,13 +1,19 @@
 ---
-title: Job
+title: CRD References
 ---
 
-# Job
+# CRD References
 
+* [Project](./project.md)
 * [GenericJob](./genericjob.md)
 * [TensorFlowTrainingJob](./tensorflowtrainingjob.md)
 * [PyTorchTrainingJob](./pytorchtrainingjob.md)
 * [XGBoostTrainingJob](./xgboosttrainingjob.md)
-* [MPIJob](./mpijob.md)
 * [ColossalAIJob](./colossalaijob.md)
 * [DeepSpeedJob](./deepspeedjob.md)
+* [MPIJob](./mpijob.md)
+* [TensorBoard](./tensorboard.md)
+* [Notebook](./notebook.md)
+* [Explorer](./explorer.md)
+* [StorageShim](./storageshim.md)
+* [Scheduler](./scheduler.md)

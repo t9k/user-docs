@@ -4,4 +4,4 @@ title: API
 
 # API
 
-* [Build Console](./build-console)
+* [CRD References](./crd)
