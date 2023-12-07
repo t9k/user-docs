@@ -1,291 +1,379 @@
----
-title: GenericJob
----
+# API Reference
 
-# GenericJob
+## Packages
+- [batch.tensorstack.dev/v1beta1](#batchtensorstackdevv1beta1)
 
-## GenericJob
 
-GenericJob enables running distributed computing tasks in Kubernetes through using multiple replicas.
+## batch.tensorstack.dev/v1beta1
 
-* **apiVersion**: batch.tensorstack.dev/v1beta1
-* **kind**: GenericJob
-* **metadata** ([*ObjectMeta*:octicons-link-external-16:](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/#ObjectMeta){target=_blank})
+Package v1beta1 contains API Schema definitions for the batch v1beta1 API group
 
-    Standard object's metadata. More info: [https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata:octicons-link-external-16:](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata){target=_blank}.
+### Resource Types
+- [GenericJob](#genericjob)
+- [GenericJobList](#genericjoblist)
 
-* **spec** ([*GenericJobSpec*](#genericjobspec))
 
-    Specification of the desired behavior of the GenericJob.
 
-* **status** ([*GenericJobStatus*](#genericjobstatus))
+#### Aggregate
 
-    Most recently observed status of the GenericJob.
 
-## GenericJobSpec
 
-GenericJobSpec is the specification of the desired behavior of the GenericJob.
+Aggregate records the number of replica pods at each phase.
 
-* **successRules** (*[]FinishedRule*), required
+_Appears in:_
+- [GenericJobStatus](#genericjobstatus)
 
-    Rules used to check if a generic job is succeeded. Each role refers to a series of replicas, and the generic job is succeeded only if all of the replicas are succeeded. 
+| Field | Description |
+| --- | --- |
+| `creating` _integer_ | Pod has been created, but resources have not been scheduled. |
+| `pending` _integer_ | Pod has been accepted by the system, but one or more of the containers has not been started. This includes time before being bound to a node, as well as time spent pulling images onto the host. |
+| `running` _integer_ | Pod has been bound to a node and all of the containers have been started. At least one container is still running or is in the process of being restarted. |
+| `succeeded` _integer_ | All containers in the pod have voluntarily terminated with a container exit code of 0, and the system is not going to restart any of these containers. |
+| `failed` _integer_ | All containers in the pod have terminated, and at least one container has terminated in failure (exited with a non-zero exit code or was stopped by the system). |
+| `unknown` _integer_ | For some reason the state of the pod could not be obtained, typically due to an error in communicating with the host of the pod. |
+| `deleted` _integer_ | Pod has been deleted. |
 
-    *FinishedRule* (*map[string]RankList*) is a map from replica role to a list of replica ranks. 
 
-    *RankList* (*[]intstr.IntOrString*) is a list of replica ranks.
+#### CleanUpPolicy
 
-    *intstr.IntOrString* is a type that can hold an int32 or a string. When used in JSON or YAML marshalling and unmarshalling, it produces or consumes the inner type. This allows you to have, for example, a JSON field that can accept a name or number
+_Underlying type:_ `string`
 
-* **failureRules** (*[]FinishedRule*), required
+CleanUpPolicy specifies the collection of replicas that are to be deleted upon job completion.
 
-    Rules used to check if a generic job is failed. Each role refers to a series of replicas, and the generic job is failed only if all of the replicas are failed. 
+_Appears in:_
+- [GenericJobSpec](#genericjobspec)
 
-* **service** (*ServiceOption*)
 
-    Service describes whether the service will be create and what the service is like.     
 
-    * **ports** (*[]corev1.ServicePort*)
-    
-        The list of ports that are exposed by the service which will be created.
+#### ContainerStatus
 
-        *ServicePort* contains information on service's port. More info: [https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/#ServiceSpec:octicons-link-external-16:](https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/#ServiceSpec){target=_blank}.
 
-* **runMode** (*RunMode*)
 
-    GenericJob can run in three modes: normal, debug and pause. Normal - run the job; debug - create training environment but not train; pause - keep the GenericJob CR but not create the workload.
-    
-    *RunMode* tells which mode to use and how the job works in this mode.
+ContainerStatus defines the observed state of the container.
 
-    * **debug** (*DebugMode*)
-   
-        *DebugMode* describes how the debug mode works.
+_Appears in:_
+- [ReplicaStatus](#replicastatus)
 
-        * **enable** (*bool*)
 
-            Whether to enable DebugMode, defaults to false.
 
-        * **replicaSpecs** (*[]ReplicaDebugSet*)
+#### DebugMode
 
-            Describe how to start replicas in debug mode.
 
-            *ReplicaDebugSet* describe how to start a replica in debug mode.
 
-            * **type** (*string*), required
+DebugMode configs whether and how to start a job in debug mode.
 
-                The type of the replica, one of "master" or "worker".
+_Appears in:_
+- [RunMode](#runmode)
 
-            * **skipInitContainer** (*bool*)
+| Field | Description |
+| --- | --- |
+| `enabled` _boolean_ | Whether to enable debug mode. |
+| `replicaSpecs` _[ReplicaDebugSet](#replicadebugset) array_ | If provided, these specs provide overwriting values for job replicas. |
 
-                Whether to skip initContainer.
 
-            * **command** (*[]string*)
+#### FinishRule
 
-                Command to execute in the replica, default 'sleep inf'.
 
-    * **pause** (*PauseMode*)
-   
-        *PauseMode* describes how the debug mode works.
 
-        * **enable** (*bool*)
+A finishRule is a condition used to check if the job has finished. A finishRule identifies a set of replicas, and the controller determines the job's status by checking the status of all of these replicas.
 
-            Whether to enable pause mode, defaults to false.
+_Appears in:_
+- [GenericJobSpec](#genericjobspec)
 
-        * **resumeSpecs** (*[]ResumeSpec*)
 
-            Describe how to resume replicas from pause mode.
 
-            *ResumeSpec* describe how to restart replicas from pause mode.
+#### GenericJob
 
-            * **type** (*string*), required
 
-                The type of the replica, one of "master" or "worker".
 
-            * **skipInitContainer** (*bool*)
+GenericJob represents the schema for a general-purpose batch job API. While it offers less automation compared to specialized APIs like PyTorchTrainingJob, it allows for greater flexibility in specifying parallel replicas/pods. This design serves as a comprehensive job definition mechanism when more specialized APIs are not applicable or available.
 
-                Whether to skip initContainer.
+_Appears in:_
+- [GenericJobList](#genericjoblist)
 
-            * **command** (*[]string*)
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `batch.tensorstack.dev/v1beta1`
+| `kind` _string_ | `GenericJob`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[GenericJobSpec](#genericjobspec)_ |  |
+| `status` _[GenericJobStatus](#genericjobstatus)_ |  |
 
-                Command to execute in the replica. Use spec.replicaSpecs.template.container.command by default.
 
-            * **args** (*[]string*)
+#### GenericJobList
 
-                Command args. Use spec.replicaSpecs.template.container.command by default.
 
-* **cleanUpPolicy** (*string*)
 
-    Determine whether the replicas should be deleted after the job is finished. Can be `All`, `Unfinished` or `None`.
+GenericJobList contains a list of GenericJob
 
-* **scheduler**
 
-    Choose the appropriate Scheduler to schedule replicas. Can be Kubernetes Default Scheduler or T9k Scheduler. Default use Kubernetes Default Scheduler.
 
-    *SchedulerPolicy* assign the replicas to a specific scheduler.
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `batch.tensorstack.dev/v1beta1`
+| `kind` _string_ | `GenericJobList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[GenericJob](#genericjob) array_ |  |
 
-    * **t9kScheduler** (*T9kScheduler*)
 
-        T9k Scheduler configuration.
+#### GenericJobSpec
 
-        *T9kScheduler* descibes the PodGroup that will be created.
 
-        * **queue** (*string*), required
 
-            T9k Scheduler Queue name. All T9k Scheduler PodGroups should work in a Queue.
+GenericJobSpec defines the desired state of GenericJob
 
-        * **priority** (*int32*)
+_Appears in:_
+- [GenericJob](#genericjob)
 
-            Indicates the PodGroup's priority. range is [0,100]. Default 0.
+| Field | Description |
+| --- | --- |
+| `successRules` _[FinishRule](#finishrule) array_ | Rules used to check if a generic job has succeeded. The job succeeded when any one of the successRules is fulfilled. Each item of successRules may refer to a series of replicas, and the job succeeded only if all of the replicas referred in this series are completed successfully. |
+| `failureRules` _[FinishRule](#finishrule) array_ | Rules used to check if a generic job has failed. The job failed when any one of failureRules is fulfilled. Each item of failureRules refers to a series of replicas, and the job failed only if all of the replicas in this series failed. |
+| `service` _[ServiceOption](#serviceoption)_ | Details of v1/Service for replica pods. Optional: Defaults to empty and no service will be created. |
+| `runMode` _[RunMode](#runmode)_ | Job running mode. Defaults to Immediate mode. |
+| `cleanUpPolicy` _[CleanUpPolicy](#cleanuppolicy)_ | To avoid wasting resources on completed tasks, controller will reclaim resource according to the following policies:   None: (default) no resources reclamation;   Unfinished:  only finished pods is to be deleted;   All: all the pods are to be deleted. |
+| `scheduler` _[SchedulePolicy](#schedulepolicy)_ | If specified, the pod will be dispatched by the specified scheduler. Otherwise, the pod will be dispatched by the default scheduler. |
+| `replicaSpecs` _[ReplicaSpec](#replicaspec) array_ | List of replica specs belonging to the job. There must be at least one replica defined for a Job. |
 
-* **replicasSpec** (*[]ReplicaSpec*)
 
-    Specify how the replicas work.
+#### GenericJobStatus
 
-    *ReplicaSpec* defines the desired state of replicas.
 
-    * **type** (*string*)
 
-        Replica type. For example, in tensorflow framework, a replica can be master, worker or ps.
+GenericJobStatus defines the observed state of GenericJob
 
-    * **replicas** (*int32*)
-    
-        The desired number of replicas of the given template.
-    
-    * **restartPolicy** (*RestartPolicy*)
+_Appears in:_
+- [GenericJob](#genericjob)
 
-        The policy to deal with failed replica.
+| Field | Description |
+| --- | --- |
+| `tasks` _[Tasks](#tasks) array_ | An array of status of individual tasks. |
+| `phase` _[JobPhase](#jobphase)_ | Provides a simple, high-level summary of where the Job is in its lifecycle. Note that this is NOT indended to be a comprehensive state machine. |
+| `aggregate` _[Aggregate](#aggregate)_ | Records the number of replicas at each phase. |
+| `conditions` _[JobCondition](#jobcondition) array_ | The latest available observations of a job's current state. |
 
-        *RestartPolicy* tells what to do if a replica is failed.
 
-        * **policy** (*string*)
+#### JobCondition
 
-            The policy to handle failed replica. Can be `Always`, `OnFailure` or `Never`.
 
-        * **limit** (*int16*)
 
-            The max time replicas can restart.
+JobCondition describes the current state of a job.
 
-    * **template** ([*PodTemplateSpec*:octicons-link-external-16:](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-template-v1/#PodTemplateSpec){target=_blank})
+_Appears in:_
+- [GenericJobStatus](#genericjobstatus)
 
-        Template describes the Pods that will be created.
+| Field | Description |
+| --- | --- |
+| `type` _[JobConditionType](#jobconditiontype)_ | Type of job condition: Complete or Failed. |
+| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#conditionstatus-v1-core)_ | Status of the condition, one of True, False, Unknown. |
+| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta)_ | Last time the condition transited from one status to another. |
+| `reason` _string_ | Brief reason for the condition's last transition. |
+| `message` _string_ | Human readable message indicating details about last transition. |
 
-## GenericJobStatus
 
-GenericJobStatus is the most recently observed status of the GenericJob.
+#### JobConditionType
 
-* **tasks** (*[]TaskStatus*)
+_Underlying type:_ `string`
 
-    The statuses of individual tasks.
+JobConditionType defines all possible types of JobStatus. Can be one of: Initialized, Running, ReplicaFailure, Completed, or Failed.
 
-    *TaskStatus* defines the observed state of the task.
+_Appears in:_
+- [JobCondition](#jobcondition)
 
-    * **type** (*string*)
 
-        Type of the replica.
 
-    * **restartCount** (*int16*)
+#### JobPhase
 
-        The times the pod restart.
+_Underlying type:_ `string`
 
-    * **replicaStatus** (*[]ReplicaStatus*)
-      
-        Status of relica.
-      
-        *ReplicaStatus* Describe observed state of the replica.
 
-        * **name** (*string*)
 
-          	Sub-resource's name used to distinguish sub-resources. It isn't K8s resource name.
+_Appears in:_
+- [GenericJobStatus](#genericjobstatus)
 
-        * **uid** (*string*)
 
-          	UID of replica.
 
-        * **phase** (*string*)
+#### PauseMode
 
-          	Phase of the pod, one of Pending, Running, Succeeded, Failed or Unknown.
 
-        * **containers** (*[]ContainerStatus*)
 
-            Status of the containers in the pod.
+PauseMode configs whether and how to start a job in pause mode.
 
-            *ContainerStatus* defines the observed state of the container.
+_Appears in:_
+- [RunMode](#runmode)
 
-            * **name** (*string*)
-    
-              	Sub-resource's name used to distinguish sub-resources. It isn't K8s resource name.
-    
-            * **state** (*string*)
-    
-              	State of container.
-    
-            * **exitCode** (*int32*)
-    
-            	Exit code of the container if it is terminated.
+| Field | Description |
+| --- | --- |
+| `enabled` _boolean_ | Whether to enable pause mode. |
+| `resumeSpecs` _[ResumeSpec](#resumespec) array_ | If provided, these specs provide overwriting values for job replicas when resuming. |
 
-* **backoffCount** (*int32*)
 
-  	The number of restarts being performed.
 
-* **aggregate** (*Aggregate*)
-  
-  	The number of tasks in each state.
 
-  	*Aggregate* count the number of tasks in each state.
+#### ReplicaDebugSet
 
-    * **creating** (*int32*)
 
-      	The number of tasks in unknown state (Pod is not available).
 
-  	* **pending** (*int32*)
+ReplicaDebugSet describes how to start replicas in debug mode.
 
-    	The number of tasks in pending state (Pod is in waiting state).
+_Appears in:_
+- [DebugMode](#debugmode)
 
-  	* **running** (*int32*)
+| Field | Description |
+| --- | --- |
+| `type` _string_ | Replica type. |
+| `skipInitContainer` _boolean_ | Skips creation of initContainer, if true. |
+| `command` _[string](#string)_ | Entrypoint array. Optional: Default to ["sleep", "inf"] |
 
-    	The number of tasks in running state (Pod is in running state).
 
-  	* **succeeded** (*int32*)
+#### ReplicaSpec
 
-    	The number of tasks in succeeded state (Pod is terminated with exit code =  0).
 
-    * **failed** (*int32*)
 
-  		The number of tasks in failed state (Pod is terminated with exit code != 0).
+ReplicaSpec defines the desired state of replicas.
 
-    * **unknown** (*int32*)
+_Appears in:_
+- [GenericJobSpec](#genericjobspec)
 
-		The number of tasks in unknown state (Pod is not available).
+| Field | Description |
+| --- | --- |
+| `type` _string_ | Replica type. |
+| `replicas` _integer_ | The desired number of replicas of this replica type. Defaults to 1. |
+| `restartPolicy` _[RestartPolicy](#restartpolicy)_ | Restart policy for replicas of this replica type. One of Always, OnFailure, Never. Optional: Default to OnFailure. |
+| `template` _[PodTemplateSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#podtemplatespec-v1-core)_ | Defines the template used to create pods. |
 
-	* **deleted** (*int32*)
 
-		The number of tasks in deleted state (Pod is deleted).
+#### ReplicaStatus
 
-* **conditions** (*[]JobCondition*)
 
-  	Represents the latest available observations of a GenericJob's current state.
 
-  	*JobCondition* is an observation of the condition of the GenericJob.
+ReplicaStatus defines the observed state of the pod.
 
-    * **type** (*string*)
+_Appears in:_
+- [Tasks](#tasks)
 
-      	Type of Job condition.
+| Field | Description |
+| --- | --- |
+| `name` _string_ | Pod name. |
+| `uid` _UID_ | Pod uid. |
+| `phase` _[PodPhase](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#podphase-v1-core)_ | Pod phase. The phase of a Pod is a simple, high-level summary of where the Pod is in its lifecycle. |
+| `containers` _[ContainerStatus](#containerstatus) array_ | Containers status. |
 
-    * **status** (*string*)
 
-      	Status of the condition, one of True, False, or Unknown.
+#### RestartPolicy
 
-    * **reason** (*string*)
 
-      	The reason for the condition's last transition.
 
-    * **message** (*string*)
+RestartPolicy describes how the replica should be restarted.
 
-      	A readable message indicating details about the transition.
+_Appears in:_
+- [ReplicaSpec](#replicaspec)
 
-    * **lastTransitionTime** (*string*)
+| Field | Description |
+| --- | --- |
+| `policy` _[RestartPolicyType](#restartpolicytype)_ | The policy to restart finished replica. |
+| `limit` _integer_ | The maximum number of restarts. Optional: Default to 0. |
 
-      	Last time the condition transitioned from one status to another.
 
-* **phase** (*string*)
+#### RestartPolicyType
 
-  	Defines all possible phases of training, one of Pending, Running, Paused, Resuming, Succeeded, Failed or Unknown.
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [RestartPolicy](#restartpolicy)
+
+
+
+#### ResumeSpec
+
+
+
+ResumeSpec describes how to resume replicas from pause mode.
+
+_Appears in:_
+- [PauseMode](#pausemode)
+
+| Field | Description |
+| --- | --- |
+| `type` _string_ | Replica type. |
+| `skipInitContainer` _boolean_ | Skips creation of initContainer, if true. |
+| `command` _[string](#string)_ | Entrypoint array. Provides overwriting values if provided; otherwise, values in immediate mode are used. |
+| `args` _[string](#string)_ | Arguments to the entrypoint. Arguments in immediate mode are used if not provided. |
+
+
+#### RunMode
+
+
+
+RunMode defines the job's execution behavior:   Immediate mode: (Default) Tasks are executed immediately upon submission.   Debug mode: Job pods are created, but regular executions are replaced with null operations (e.g., sleep) for convenient debugging purposes.   Pause mode: Job execution is halted, and pods are deleted to reclaim resources. A graceful pod termination process is initiated to allow pods to exit cleanly.
+
+_Appears in:_
+- [GenericJobSpec](#genericjobspec)
+
+| Field | Description |
+| --- | --- |
+| `debug` _[DebugMode](#debugmode)_ | Debug mode. |
+| `pause` _[PauseMode](#pausemode)_ | Pause mode. |
+
+
+#### SchedulePolicy
+
+
+
+SchedulePolicy signals to K8s how the job should be scheduled.
+
+_Appears in:_
+- [GenericJobSpec](#genericjobspec)
+
+| Field | Description |
+| --- | --- |
+| `t9kScheduler` _[T9kScheduler](#t9kscheduler)_ | T9k Scheduler. TODO: link to t9k scheduler docs. |
+
+
+#### ServiceOption
+
+
+
+Details of a replicas' servivce.
+
+_Appears in:_
+- [GenericJobSpec](#genericjobspec)
+
+| Field | Description |
+| --- | --- |
+| `ports` _[ServicePort](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#serviceport-v1-core) array_ | The list of ports that are exposed by this service. |
+
+
+#### T9kScheduler
+
+
+
+T9kScheduler provides additonal configurations needed for the scheduling process.
+
+_Appears in:_
+- [SchedulePolicy](#schedulepolicy)
+
+| Field | Description |
+| --- | --- |
+| `queue` _string_ | Specifies the name of the queue should be used for running this workload. TODO: link to t9k scheduler docs. |
+| `priority` _integer_ | Indicates the priority of the PodGroup; valid range: [0, 100]. Optional: Default to 0. |
+
+
+#### Tasks
+
+
+
+Task defines the observed state of the task.
+
+_Appears in:_
+- [GenericJobStatus](#genericjobstatus)
+
+| Field | Description |
+| --- | --- |
+| `type` _string_ | Replica type. |
+| `restartCount` _integer_ | The number of restarts that have been performed. |
+| `replicas` _[ReplicaStatus](#replicastatus) array_ | Replicas status array. |
+
+

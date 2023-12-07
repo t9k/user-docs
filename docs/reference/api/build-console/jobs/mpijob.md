@@ -1,271 +1,133 @@
----
-title: MPIJob
----
+# API Reference
 
-# MPIJob
+## Packages
+- [batch.tensorstack.dev/v1beta1](#batchtensorstackdevv1beta1)
 
-## MPIJob
 
-MPIJob enables running distributed computing tasks in Kubernetes through using MPI protocol.
+## batch.tensorstack.dev/v1beta1
 
-* **apiVersion**: batch.tensorstack.dev/v1beta1
-* **kind**: MPIJob
-* **metadata** ([*ObjectMeta*:octicons-link-external-16:](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/#ObjectMeta){target=_blank})
+Package v1beta1 contains API Schema definitions for the batch v1beta1 API group
 
-    Standard object's metadata. More info: [https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata:octicons-link-external-16:](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata){target=_blank}.
+### Resource Types
+- [MPIJob](#mpijob)
+- [MPIJobList](#mpijoblist)
 
-* **spec** ([*MPIJobSpec*](#mpijobspec))
 
-    Specification of the desired behavior of the MPIJob.
 
-* **status** ([*MPIJobStatus*](#mpijobstatus))
+#### MPIJob
 
-    Most recently observed status of the MPIJob.
 
-## MPIJobSpec
 
-MPIJobSpec is the specification of the desired behavior of the MPIJob.
+MPIJob is the Schema for the mpijobs API
 
-* **worker** (*WorkerConfig*)
+_Appears in:_
+- [MPIJobList](#mpijoblist)
 
-    Describes the workers that will be created.
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `batch.tensorstack.dev/v1beta1`
+| `kind` _string_ | `MPIJob`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[MPIJobSpec](#mpijobspec)_ |  |
+| `status` _[MPIJobStatus](#mpijobstatus)_ |  |
 
-    * **replicas** (*int32*)
 
-        The number of MPI workers. This is a pointer to distinguish between explicit zero and not specified. Default 1.
+#### MPIJobList
 
-    * **extraMPIArgs** (*[]string*)
 
-        MPI args.
 
-    * **cmd** (*[]string*), required
+MPIJobList contains a list of MPIJob
 
-        Defines how the workers run.
 
-    * **template** ([*PodTemplateSpec*:octicons-link-external-16:](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-template-v1/#PodTemplateSpec)){target=_blank}
 
-        Template describes the Pods that will be created.
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `batch.tensorstack.dev/v1beta1`
+| `kind` _string_ | `MPIJobList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[MPIJob](#mpijob) array_ |  |
 
-* **mca** (*map[string]string*)
 
-    Open MPI uses Modular Component Architecture(MCA) parameters to provide a way to tune your runtime environment. 
+#### MPIJobSpec
 
-* **ssh** (*SSHConfig*)
 
-    SSH configs
 
-    * **sshAuthMountPath** (*string*)
+MPIJobSpec outlines the intended configuration and execution parameters for a MPIJob.
 
-        SSHAuthMountPath is the directory where SSH keys are mounted. Defaults to "/root/.ssh".
+_Appears in:_
+- [MPIJob](#mpijob)
 
-    * **sshdPath** （*string*)
+| Field | Description |
+| --- | --- |
+| `worker` _[WorkerConfig](#workerconfig)_ | Specifications for the worker replicas. |
+| `mca` _object (keys:string, values:string)_ | Open MPI uses Modular Component Architecture (MCA) parameters to provide a way to tune your runtime environment. |
+| `ssh` _[SSHConfig](#sshconfig)_ | SSH configs. |
+| `runPolicy` _[RunPolicy](#runpolicy)_ | Execution policy configurations governing the behavior of the MPI job. |
+| `runMode` _[RunMode](#runmode)_ | Job's execution behavior. If omitted, defaults to `Immediate` mode, and tasks are executed immediately upon submission. |
+| `mpiHome` _string_ | Open MPI installation path. |
+| `scheduler` _SchedulePolicy_ | Identifies the preferred scheduler for allocating resources to replicas. Defaults to cluster default scheduler. Use k8s default scheduler by default. |
 
-        Sshd abstract path. Default to "/usr/sbin/sshd"
 
-* **runPolicy** (*RunPolicy*)
+#### MPIJobStatus
 
-    Specifies various rules for managing the running of a MPIJob.
 
-    *RunPolicy* encapsulates various runtime policies of the distributed training job, for example how to clean up resources.
 
-    * **cleanUpWorkers** (*string*)
+MPIJobStatus represents the observed state of a MPIJob.
 
-        Clean the tasks after the training job finished, one of "all", "unfinished" or "none".
+_Appears in:_
+- [MPIJob](#mpijob)
 
-* **mpiHome** (*string*)
+| Field | Description |
+| --- | --- |
+| `tasks` _[Tasks](#tasks) array_ | Individual task status details of the job. |
+| `aggregate` _[Aggregate](#aggregate)_ |  |
+| `phase` _JobPhase_ | Provides a simple, high-level summary of where the Job is in its lifecycle. Note that this is NOT indended to be a comprehensive state machine. |
+| `conditions` _[JobCondition](#jobcondition) array_ | The latest available observations of an object's current state. |
 
-    Tells `mpirun` in which directory.
 
-* **scheduler** (*SchedulerPolicy*)
+#### RunPolicy
 
-    Choose the appropriate Scheduler to schedule replicas. Can be Kubernetes Default Scheduler or T9k Scheduler. Default use Kubernetes Default Scheduler.
 
-    *SchedulerPolicy* assign the replicas to a specific scheduler.
 
-    * **t9kScheduler** (*T9kScheduler*)
+RunPolicy encapsulates various runtime policies of the MPI job, for example how to clean up resources.
 
-        T9k Scheduler configuration.
+_Appears in:_
+- [MPIJobSpec](#mpijobspec)
 
-        *T9kScheduler* descibes the PodGroup that will be created.
+| Field | Description |
+| --- | --- |
+| `cleanUpWorkers` _boolean_ | If worker replicas should be cleand up after they finish. Defaults false. |
 
-        * **queue** (*string*), required
 
-            T9k Scheduler Queue name. All T9k Scheduler PodGroups should work in a Queue.
+#### SSHConfig
 
-        * **priority** (*int32*)
 
-            Indicates the PodGroup's priority. range is [0,100]. Default 0.
 
-* **runMode** (*RunMode*)
+SSHConfig specifies various configurations for running the SSH daemon (sshd).
 
-    MPIJob can run in three modes: normal, debug and pause. Normal - run the job; debug - create training environment but not train; pause - keep the GenericJob CR but not create the workload.
-    
-    *RunMode* tells which mode to use and how the job works in this mode.
+_Appears in:_
+- [MPIJobSpec](#mpijobspec)
 
-    * **debug** (*DebugMode*)
+| Field | Description |
+| --- | --- |
+| `sshAuthMountPath` _string_ | SSHAuthMountPath is the directory where SSH keys are mounted. Defaults to "/root/.ssh". |
+| `sshdPath` _string_ |  |
 
-        Describes how the debug mode works.
 
-        * **enable** (*bool*)
+#### WorkerConfig
 
-            Whether to enable DebugMode, defaults to false.
 
-        * **replicaSpecs** (*[]ReplicaDebugSet*)
 
-            Describe how to start replicas in debug mode.
+ WorkerConfig defines the configurations for MPI worker replicas.
 
-            *ReplicaDebugSet* describe how to start a replica in debug mode.
+_Appears in:_
+- [MPIJobSpec](#mpijobspec)
 
-            * **type** (*string*), required
+| Field | Description |
+| --- | --- |
+| `replicas` _integer_ | The number of workers to launch. Default 1. |
+| `extraMPIArgs` _string array_ | Extra args for mpirun. |
+| `cmd` _string array_ | Command line to start the MPI programs inside a worker pod. This is invoked by the launcher after all the worker pods have been created and entered ready state. |
+| `template` _[PodTemplateSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#podtemplatespec-v1-core)_ | Defines the pod template used to create workers. Users are responsible for ensuring that container images and configurations are properly set to guarantee the worker operates in the state anticipated by the `launcher`. |
 
-                The type of the replica, one of "master" or "worker".
 
-            * **skipInitContainer** (*bool*)
-
-                Whether to skip initContainer.
-
-            * **command** (*[]string*)
-
-                Command which will override the containers of replicaSpecs.
-
-    * **pause** (*PauseMode*)
-   
-        *PauseMode* describes how the debug mode works.
-
-        * **enable** (*bool*)
-
-            Whether to enable pause mode, defaults to false.
-
-        * **resumeSpecs** (*[]ResumeSpec*)
-
-            Describe how to resume replicas from pause mode.
-
-            *ResumeSpec* describe how to restart replicas from pause mode.
-
-            * **type** (*string*), required
-
-                The type of the replica, one of "master" or "worker".
-
-            * **skipInitContainer** (*bool*)
-
-                Whether to skip initContainer.
-
-            * **command** (*[]string*)
-
-                Command to execute in the replica. Use spec.replicaSpecs.template.container.command by default.
-
-            * **args** (*[]string*)
-
-                Command args. Use spec.replicaSpecs.template.container.command by default.
-
-## MPIJobStatus
-
-MPIJobStatus is the most recently observed status of the MPIJob.
-
-* **phase** (*string*)
-
-    Defines all possible phases of training, one of Pending, Running, Paused, Resuming, Succeeded, Failed or Unknown.
-
-* **conditions** (*[]JobCondition*)
-
-    Represents the latest available observations of a MPIJob's current state.
-
-    *JobCondition* is an observation of the condition of the MPIJob.
-
-    * **type** (*string*)
-
-        Type of Job condition.
-
-    * **status** (*string*)
-
-        Status of the condition, one of True, False, or Unknown.
-
-    * **reason** (*string*)
-
-        The reason for the condition's last transition.
-
-    * **message** (*string*)
-
-        A readable message indicating details about the transition.
-
-    * **lastTransitionTime** (*Time*)
-
-        Last time the condition transitioned from one status to another.
-
-* **aggregate**(*Aggregate*)
-
-    Count the number of replicas in each phase.
-
-    * **creating** (*int32*)
-
-        The number of replicas that is just creating.
-
-    * **pending** (*int32*)
-
-        The number of pending replicas.
-
-    * **running** (*int32*)
-
-        The number of running replicas.
-
-    * **succeeded** (*int32*)
-
-        The number of succeeded replicas.
-
-    * **failed** (*int32*)
-
-        The number of failed replicas.
-
-    * **unknown** (*int32*)
-
-        The number of replicas whose phase is unknwon.
-
-    * **deleted** (*int32*)
-
-        The number of deleted replicas.
-
-* **tasks** (*[]TaskStatus*)
-
-    The statuses of individual tasks.
-
-    *TaskStatus* defines the observed state of the task.
-
-    * **replicaType** (*string*)
-
-        Type of the replica.
-
-    * **replicaIndex** (*int32*)
-
-        Index of the replica.
-
-    * **replicas** (*[]ReplicaStatus*)
-
-        Status of the replica pod.
-
-        *ReplicaStatus* defines the observed state of the pod.
-
-        * **name** (*string*)
-
-            Pod Name.
-
-        * **uid** (*string*)
-
-            Pod UID.
-
-        * **phase** (*PodPhase*)
-
-            Pod phase, one of Creating, Pending, Running, Succeeded, Failed, Unknown or Deleted.
-
-        * **containers** (*[]ContainerStatus*)
-
-            Status of the container named "pytorch" in the pod.
-
-            *ContainerStatus* defines the observed state of the container.
-
-            * **containerPhase** (*string*)
-
-                Phase of the container, one of Waiting, Running, Terminated or Unknown.
-
-            * **exitCode** (*int32*)
-
-                Exit code of the container if it is terminated.

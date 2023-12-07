@@ -1,305 +1,113 @@
----
-title: XGBoostTrainingJob
----
+# API Reference
 
-# XGBoostTrainingJob
+## Packages
+- [batch.tensorstack.dev/v1beta1](#batchtensorstackdevv1beta1)
 
-## XGBoostTrainingJob
 
-XGBoostTrainingJob enables running distributed machine learning training tasks in Kubernetes using XGBoost.
+## batch.tensorstack.dev/v1beta1
 
-* **apiVersion**: batch.tensorstack.dev/v1beta1
-* **kind**: XGBoostTrainingJob
-* **metadata** ([*ObjectMeta*:octicons-link-external-16:](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/#ObjectMeta){target=_blank})
+Package v1beta1 contains API Schema definitions for the batch v1beta1 API group
 
-    Standard object's metadata. More info: [https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata:octicons-link-external-16:](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata){target=_blank}.
+### Resource Types
+- [XGBoostTrainingJob](#xgboosttrainingjob)
+- [XGBoostTrainingJobList](#xgboosttrainingjoblist)
 
-* **spec** ([*XGBoostTrainingJobSpec*](#xgboosttrainingjobspec))
 
-    Specification of the desired behavior of the XGBoostTrainingJob.
 
-* **status** ([*XGBoostTrainingJobStatus*](#xgboosttrainingjobstatus))
+#### ReplicaSpec
 
-    Most recently observed status of the XGBoostTrainingJob.
 
-## XGBoostTrainingJobSpec
 
-XGBoostTrainingJobSpec is the specification of the desired behavior of the XGBoostTrainingJob.
+ReplicaSpec outlines the intended configuration and execution parameters for a XGBoostTrainingJob.
 
-* **replicaSpecs** (*[]ReplicaSpec*), required
+_Appears in:_
+- [XGBoostTrainingJobSpec](#xgboosttrainingjobspec)
 
-    Describes the spec of the replicas that the job consists of.
+| Field | Description |
+| --- | --- |
+| `type` _[ReplicaType](#replicatype)_ | ReplicaType is the type of the replica, one of "master" or "worker". |
+| `replicas` _integer_ | The desired number of replicas of the current template. If unspecified, defaults to 1. |
+| `template` _[PodTemplateSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#podtemplatespec-v1-core)_ | Describes the pod that will be created for this replica. Note that `RestartPolicy` in `PodTemplateSpec` will always be set to `Never` as the job controller will decide if restarts are desired. |
+| `restartPolicy` _RestartPolicy_ | Restart policy for all replicas within the job. One of Always, OnFailure, Never, or ExitCode. Defaults to `OnFailure`. |
 
-    *ReplicaSpec* describes the spec of a replica.
 
-    * **type** (*string*), required
+#### ReplicaType
 
-        The type of the replica, one of "master" or "worker".
+_Underlying type:_ `string`
 
-    * **replicas** (*int32*)
+ReplicaType is the type of the replica, one of "`master`" or "`worker`".
 
-        The desired number of replicas created from the given template. If unspecified, defaults to 1.
+_Appears in:_
+- [ReplicaSpec](#replicaspec)
 
-    * **template** (*[PodTemplateSpec:octicons-link-external-16:](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-template-v1/#PodTemplateSpec){target=_blank}*)
 
-        Describes the pod that will be created for this replica. Note that **restartPolicy** in *PodTemplateSpec* will be overidden by **restartPolicy** in *ReplicaSpec*.
 
-    * **restartPolicy** (*string*)
+#### XGBoostTrainingJob
 
-        The restart policy for this replica, one of Always, OnFailure, Never, or ExitCode. Defaults to Never.
 
-* **runPolicy** (*RunPolicy*)
 
-    Specifies various rules for managing the running of a XGBoostTrainingJob.
 
-    *RunPolicy* encapsulates various runtime policies of the distributed training job, for example how to clean up resources and how long the job can stay active.
 
-    * **activeDeadlineSeconds** (*int64*)
+_Appears in:_
+- [XGBoostTrainingJobList](#xgboosttrainingjoblist)
 
-        Specifies the duration in seconds relative to the startTime that the job may be active before the system tries to terminate it; value must be positive integer.
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `batch.tensorstack.dev/v1beta1`
+| `kind` _string_ | `XGBoostTrainingJob`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[XGBoostTrainingJobSpec](#xgboosttrainingjobspec)_ |  |
+| `status` _[XGBoostTrainingJobStatus](#xgboosttrainingjobstatus)_ |  |
 
-    * **backoffLimit** (*int32*)
 
-        Optional number of retries before marking this job failed.
+#### XGBoostTrainingJobList
 
-    * **cleanUpPolicy** (*string*)
 
-        Clean the tasks after the training job finished, one of "all", "unfinished" or "none".
 
-* **scheduler** (*SchedulerPolicy*)
+XGBoostTrainingJobList contains a list of XGBoostTrainingJob.
 
-    Choose the appropriate Scheduler to schedule replicas. Can be Kubernetes Default Scheduler or T9k Scheduler. Default use Kubernetes Default Scheduler.
 
-    *SchedulerPolicy* assign the replicas to a specific scheduler.
 
-    * **t9kScheduler** (*T9kScheduler*)
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `batch.tensorstack.dev/v1beta1`
+| `kind` _string_ | `XGBoostTrainingJobList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[XGBoostTrainingJob](#xgboosttrainingjob) array_ |  |
 
-        T9k Scheduler configuration.
 
-        *T9kScheduler* descibes the PodGroup that will be created.
+#### XGBoostTrainingJobSpec
 
-        * **queue** (*string*), required
 
-            T9k Scheduler Queue name. All T9k Scheduler PodGroups should work in a Queue.
 
-        * **priority** (*int32*)
 
-            Indicates the PodGroup's priority. range is [0,100]. Default 0.
 
-* **runMode** (*RunMode*)
+_Appears in:_
+- [XGBoostTrainingJob](#xgboosttrainingjob)
 
-    XGBoostTrainingJob can run in three modes: normal, debug and pause. Normal - run the job; debug - create training environment but not train; pause - keep the XGBoostTrainingJob CR but not create the workload.
+| Field | Description |
+| --- | --- |
+| `replicaSpecs` _[ReplicaSpec](#replicaspec) array_ | An array of ReplicaSpec. Specifies the XGBoost replica configurations. |
+| `runMode` _[RunMode](#runmode)_ | Job's execution behavior. If omitted, defaults to `Immediate` mode, and tasks are executed immediately upon submission. |
+| `runPolicy` _[RunPolicy](#runpolicy)_ | Execution policy configurations governing the behavior of the XGBoostTrainingJob. |
+| `scheduler` _SchedulePolicy_ | Identifies the preferred scheduler for allocating resources to replicas. Defaults to cluster default scheduler. |
 
-    *RunMode* tells which mode to use and how the job works in this mode.
 
-    * **debug** (*DebugMode*)
-   
-        *DebugMode* describes how the debug mode works.
+#### XGBoostTrainingJobStatus
 
-        * **enable** (*bool*)
 
-            Whether to enable DebugMode, defaults to false.
 
-        * **replicaSpecs** (*[]ReplicaDebugSet*)
+XGBoostTrainingJobStatus defines the observed state of XGBoostTrainingJob.
 
-            Describe how to start replicas in debug mode.
+_Appears in:_
+- [XGBoostTrainingJob](#xgboosttrainingjob)
 
-            *ReplicaDebugSet* describe how to start a replica in debug mode.
+| Field | Description |
+| --- | --- |
+| `tasks` _[Tasks](#tasks) array_ | The status details of individual tasks. |
+| `backoffCount` _integer_ | The number of restarts being performed. |
+| `aggregate` _[Aggregate](#aggregate)_ |  |
+| `conditions` _[JobCondition](#jobcondition) array_ | The latest available observations of an object's current state. |
+| `phase` _JobPhase_ | Provides a simple, high-level summary of where the Job is in its lifecycle. Note that this is NOT indended to be a comprehensive state machine. |
 
-            * **type** (*string*), required
 
-                The type of the replica, one of "master" or "worker".
-
-            * **skipInitContainer** (*bool*)
-
-                Whether to skip initContainer.
-
-            * **command** (*[]string*)
-
-                Command to execute in the replica, default 'sleep inf'.
-
-    * **pause** (*PauseMode*)
-   
-        *PauseMode* describes how the debug mode works.
-
-        * **enable** (*bool*)
-
-            Whether to enable pause mode, defaults to false.
-
-        * **resumeSpecs** (*[]ResumeSpec*)
-
-            Describe how to resume replicas from pause mode.
-
-            *ResumeSpec* describe how to restart replicas from pause mode.
-
-            * **type** (*string*), required
-
-                The type of the replica, one of "master" or "worker".
-
-            * **skipInitContainer** (*bool*)
-
-                Whether to skip initContainer.
-
-            * **command** (*[]string*)
-
-                Command to execute in the replica. Use spec.replicaSpecs.template.container.command by default.
-
-            * **args** (*[]string*)
-
-                Command args. Use spec.replicaSpecs.template.container.command by default.
-
-## XGBoostTrainingJobStatus
-
-XGBoostTrainingJobStatus is the most recently observed status of the XGBoostTrainingJob.
-
-* **tasks** (*[]TaskStatus*)
-
-    The statuses of individual tasks.
-
-    *TaskStatus* defines the observed state of the task.
-
-    * **type** (*string*)
-
-        Type of the replica.
-
-    * **restartCount** (*int16*)
-
-        The times the pod restart.
-
-    * **replicaStatus** (*[]ReplicaStatus*)
-      
-        Status of relica.
-      
-        *ReplicaStatus* Describe observed state of the replica.
-
-        * **name** (*string*)
-
-          	Sub-resource's name used to distinguish sub-resources. It isn't K8s resource name.
-
-        * **uid** (*string*)
-
-          	UID of replica.
-
-        * **phase** (*string*)
-
-          	Phase of the pod, one of Pending, Running, Succeeded, Failed or Unknown.
-
-        * **containers** (*[]ContainerStatus*)
-
-            Status of the containers in the pod.
-
-            *ContainerStatus* defines the observed state of the container.
-
-            * **name** (*string*)
-    
-              	Sub-resource's name used to distinguish sub-resources. It isn't K8s resource name.
-    
-            * **state** (*string*)
-    
-              	State of container.
-    
-            * **exitCode** (*int32*)
-    
-            	Exit code of the container if it is terminated.
-
-* **tensorboard** (*DependentStatus*)
-
-    The status of the tensorboard if there is one.
-
-    *DependentStatus* is the status of a K8s dependent object.
-
-    * **name** (*string*)
-
-      	Sub-resource's name used to distinguish sub-resources. It isn't K8s resource name.
-
-    * **dependent** (*[ObjectReference](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-reference/)*)
-
-      	Refers to a K8s resource.
-
-    * **ready** (*bool*)
-
-      	Whether the sub-resource is ready to work.
-
-    * **reason** (*string*)
-
-      	The reason why the sub-resource is in this status.
-
-    * **action** (*string*)
-
-      	An action for reconciling a dependent.
-
-    * **note** (*string*)
-
-      	A note that gives more information about this status.
-
-    * **type** (*string*)
-
-      	Status type, one of Normal or Warning.
-
-* **backoffCount** (*int32*)
-
-  	The number of restarts being performed.
-
-* **aggregate** (*Aggregate*)
-  
-  	The number of tasks in each state.
-
-  	*Aggregate* count the number of tasks in each state.
-
-    * **creating** (*int32*)
-
-      	The number of tasks in unknown state (Pod is not available).
-
-  	* **pending** (*int32*)
-
-    	The number of tasks in pending state (Pod is in waiting state).
-
-  	* **running** (*int32*)
-
-    	The number of tasks in running state (Pod is in running state).
-
-  	* **succeeded** (*int32*)
-
-    	The number of tasks in succeeded state (Pod is terminated with exit code =  0).
-
-    * **failed** (*int32*)
-
-  		The number of tasks in failed state (Pod is terminated with exit code != 0).
-
-    * **unknown** (*int32*)
-
-		The number of tasks in unknown state (Pod is not available).
-
-	* **deleted** (*int32*)
-
-		The number of tasks in deleted state (Pod is deleted).
-
-* **conditions** (*[]JobCondition*)
-
-  	Represents the latest available observations of a XGBoostTrainingJob's current state.
-
-  	*JobCondition* is an observation of the condition of the XGBoostTrainingJob.
-
-    * **type** (*string*)
-
-      	Type of Job condition.
-
-    * **status** (*string*)
-
-      	Status of the condition, one of True, False, or Unknown.
-
-    * **reason** (*string*)
-
-      	The reason for the condition's last transition.
-
-    * **message** (*string*)
-
-      	A readable message indicating details about the transition.
-
-    * **lastTransitionTime** (*string*)
-
-      	Last time the condition transitioned from one status to another.
-
-* **phase** (*string*)
-
-  	Defines all possible phases of training, one of Pending, Running, Paused, Resuming, Succeeded, Failed or Unknown.

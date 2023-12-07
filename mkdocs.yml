@@ -151,6 +151,7 @@ nav:
       - reference/api/index.md
       - Build Console:
         - reference/api/build-console/index.md
+        - Project: reference/api/build-console/project.md
         - Job:
           - reference/api/build-console/jobs/index.md
           - GenericJob: reference/api/build-console/jobs/genericjob.md
@@ -161,6 +162,12 @@ nav:
           - DeepSpeedJob: reference/api/build-console/jobs/deepspeedjob.md
           - MPIJob: reference/api/build-console/jobs/mpijob.md
         - TensorBoard: reference/api/build-console/tensorboard.md
+        - Notebook: reference/api/build-console/notebook.md
+        - Explorer: reference/api/build-console/explorer.md
+        - StorageShim: reference/api/build-console/storageshim.md
+      - Scheduling:
+        - reference/api/scheduling/index.md
+        - Resources: reference/api/scheduling/resources.md
   - 工具:
     - tool/index.md
     - TensorStack CLI:

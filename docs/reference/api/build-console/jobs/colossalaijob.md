@@ -1,287 +1,150 @@
----
-title: ColossalAIJob
----
+# API Reference
 
-# ColossalAIJob
+## Packages
+- [batch.tensorstack.dev/v1beta1](#batchtensorstackdevv1beta1)
 
-## ColossalAIJob
 
-ColossalAIJob enables running distributed computing tasks in Kubernetes through using ColossalAI framework.
+## batch.tensorstack.dev/v1beta1
 
-* **apiVersion**: batch.tensorstack.dev/v1beta1
-* **kind**: ColossalAIJob
-* **metadata** ([*ObjectMeta*:octicons-link-external-16:](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/#ObjectMeta){target=_blank})
+Package v1beta1 contains API Schema definitions for the batch v1beta1 API group
 
-    Standard object's metadata. More info: [https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata:octicons-link-external-16:](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata){target=_blank}.
+### Resource Types
+- [ColossalAIJob](#colossalaijob)
+- [ColossalAIJobList](#colossalaijoblist)
 
-* **spec** ([*ColossalAIJobSpec*](#colossalaijobspec))
 
-    Specification of the desired behavior of the ColossalAIJob.
 
-* **status** ([*ColossalAIJobStatus*](#colossalaijobstatus))
+#### ColossalAIJob
 
-    Most recently observed status of the ColossalAIJob.
 
-## ColossalAIJobSpec
 
-ColossalAIJobSpec is the specification of the desired behavior of the ColossalAIJob.
+ColossalAIJob is the Schema for the colossalaijobs API
 
-* **ssh** (*SSHConfig*)
+_Appears in:_
+- [ColossalAIJobList](#colossalaijoblist)
 
-    SSH configs
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `batch.tensorstack.dev/v1beta1`
+| `kind` _string_ | `ColossalAIJob`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[ColossalAIJobSpec](#colossalaijobspec)_ |  |
+| `status` _[ColossalAIJobStatus](#colossalaijobstatus)_ |  |
 
-    * **sshAuthMountPath** (*string*)
 
-        SSHAuthMountPath is the directory where SSH keys are mounted. Defaults to "/root/.ssh".
+#### ColossalAIJobList
 
-    * **sshdPath** （*string*)
 
-        Sshd abstract path. Default to "/usr/sbin/sshd"
 
-* **runMode** (*RunMode*)
+ColossalAIJobList contains a list of ColossalAIJob.
 
-    ColossalAIJob can run in three modes: normal, debug and pause. Normal - run the job; debug - create training environment but not train; pause - keep the GenericJob CR but not create the workload.
-    
-    *RunMode* tells which mode to use and how the job works in this mode.
 
-    * **debug** (*DebugMode*)
 
-        Describes how the debug mode works.
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `batch.tensorstack.dev/v1beta1`
+| `kind` _string_ | `ColossalAIJobList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[ColossalAIJob](#colossalaijob) array_ |  |
 
-        * **enable** (*bool*)
 
-            Whether to enable DebugMode, defaults to false.
+#### ColossalAIJobSpec
 
-        * **replicaSpecs** (*[]ReplicaDebugSet*)
 
-            Describe how to start replicas in debug mode.
 
-            *ReplicaDebugSet* describe how to start a replica in debug mode.
+ColossalAIJobSpec defines the configurations of a ColossalAI training job.
 
-            * **type** (*string*), required
+_Appears in:_
+- [ColossalAIJob](#colossalaijob)
 
-                The type of the replica, one of "master" or "worker".
+| Field | Description |
+| --- | --- |
+| `ssh` _[SSHConfig](#sshconfig)_ | SSH configs. |
+| `runMode` _[RunMode](#runmode)_ | The desired running mode of the job, defaults to `Immediate`. |
+| `runPolicy` _[RunPolicy](#runpolicy)_ | Controls the handling of completed replicas and other related processes. |
+| `scheduler` _SchedulePolicy_ | Specifies the scheduler to request for resources. Defaults to cluster default scheduler. |
+| `launcher` _[Launcher](#launcher)_ | Specication for the launcher replica. |
+| `worker` _[Worker](#worker)_ | Specication for the launcher replica. |
 
-            * **skipInitContainer** (*bool*)
 
-                Whether to skip initContainer.
+#### ColossalAIJobStatus
 
-            * **command** (*[]string*)
 
-                Command which will override the containers of replicaSpecs.
 
-    * **pause** (*PauseMode*)
-   
-        *PauseMode* describes how the debug mode works.
+ColossalAIJobStatus describes the observed state of ColossalAIJob.
 
-        * **enable** (*bool*)
+_Appears in:_
+- [ColossalAIJob](#colossalaijob)
 
-            Whether to enable pause mode, defaults to false.
+| Field | Description |
+| --- | --- |
+| `tasks` _[Tasks](#tasks) array_ | The statuses of individual tasks. |
+| `aggregate` _[Aggregate](#aggregate)_ | The number of replicas in each phase. |
+| `phase` _JobPhase_ | Provides a simple, high-level summary of where the Job is in its lifecycle. Note that this is NOT indended to be a comprehensive state machine. |
+| `conditions` _[JobCondition](#jobcondition) array_ | The latest available observations of an object's current state. |
 
-        * **resumeSpecs** (*[]ResumeSpec*)
 
-            Describe how to resume replicas from pause mode.
+#### Launcher
 
-            *ResumeSpec* describe how to restart replicas from pause mode.
 
-            * **type** (*string*), required
 
-                The type of the replica, one of "master" or "worker".
+Specification of replica `launcher`.
 
-            * **skipInitContainer** (*bool*)
+_Appears in:_
+- [ColossalAIJobSpec](#colossalaijobspec)
 
-                Whether to skip initContainer.
+| Field | Description |
+| --- | --- |
+| `image` _string_ | Container image name. |
+| `workingDir` _string_ | Working directory of container `launcher`. If not specified, the container runtime's default will be used, which might be configured in the container image. Cannot be updated. |
+| `env` _[EnvVar](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#envvar-v1-core) array_ | List of environment variables set for the container. Cannot be updated. |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#resourcerequirements-v1-core)_ | Compute Resources required by this container. Cannot be updated. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ |
 
-            * **command** (*[]string*)
 
-                Command to execute in the replica. Use spec.replicaSpecs.template.container.command by default.
+#### RunPolicy
 
-            * **args** (*[]string*)
 
-                Command args. Use spec.replicaSpecs.template.container.command by default.
 
-* **runPolicy** (*RunPolicy*)
+RunPolicy dictates specific actions to be taken by the controller upon job completion.
 
-    Specifies various rules for managing the running of a ColossalAIJob.
+_Appears in:_
+- [ColossalAIJobSpec](#colossalaijobspec)
 
-    *RunPolicy* encapsulates various runtime policies of the distributed training job, for example how to clean up resources.
+| Field | Description |
+| --- | --- |
+| `cleanUpWorkers` _boolean_ | Defaults to false. |
 
-    * **cleanUpWorkers** (*string*)
 
-        Clean the tasks after the training job finished, one of "all", "unfinished" or "none".
+#### SSHConfig
 
-* **scheduler** (*SchedulerPolicy*)
 
-    Choose the appropriate Scheduler to schedule replicas. Can be Kubernetes Default Scheduler or T9k Scheduler. Default use Kubernetes Default Scheduler.
 
-    *SchedulerPolicy* assign the replicas to a specific scheduler.
+SSHConfig specifies various configurations for running the SSH daemon (sshd).
 
-    * **t9kScheduler** (*T9kScheduler*)
+_Appears in:_
+- [ColossalAIJobSpec](#colossalaijobspec)
 
-        T9k Scheduler configuration.
+| Field | Description |
+| --- | --- |
+| `authMountPath` _string_ | SSHAuthMountPath is the directory where SSH keys are mounted. Defaults to "/root/.ssh". |
+| `sshdPath` _string_ | The location of the sshd executable file. |
 
-        *T9kScheduler* descibes the PodGroup that will be created.
 
-        * **queue** (*string*), required
+#### Worker
 
-            T9k Scheduler Queue name. All T9k Scheduler PodGroups should work in a Queue.
 
-        * **priority** (*int32*)
 
-            Indicates the PodGroup's priority. range is [0,100]. Default 0.
+Specification of the worker replicas.
 
-* **worker** (*Worker*)
+_Appears in:_
+- [ColossalAIJobSpec](#colossalaijobspec)
 
-    Describes the workers that will be created.
+| Field | Description |
+| --- | --- |
+| `replicas` _integer_ | Number of replicas to launch. Defaults to 1. |
+| `procPerWorker` _integer_ | The number of processes of a worker. Defaults to 1. |
+| `command` _string array_ | Specifies the command used to start the workers. |
+| `torchArgs` _string array_ | Args of torchrun. |
+| `template` _[PodTemplateSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#podtemplatespec-v1-core)_ | Template defines the workers that will be created from this pod template. |
 
-    * **replicas** (*int32*)
 
-        The number of MPI workers. This is a pointer to distinguish between explicit zero and not specified. Default 1.
-
-    * **procPerWorker** (*int32*)
-
-        The number of processes working on a worker. This is a pointer to distinguish between explicit zero and not specified. Default 1.
-
-    * **command** (*[]string*), required
-
-        Defines how the workers run.
-
-    * **torchArgs** (*[]string*)
-
-        Extra options for torchrun
-
-    * **template** ([*PodTemplateSpec*:octicons-link-external-16:](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-template-v1/#PodTemplateSpec)){target=_blank}
-
-        Template describes the Pods that will be created.
-
-* **launcher** (*Worker*)
-
-    Describes the launcher that will be created.
-
-    * **image** (*string*)
-
-        Container image name. More info: [https://kubernetes.io/docs/concepts/containers/images](https://kubernetes.io/docs/concepts/containers/images). This field is optional to allow higher level config management to default or override container images in workload controllers like Deployments and StatefulSets.
-
-    * **workingDir** (*string*)
-
-        Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image.
-
-    * **env** ([*[]EnvVar*:octicons-link-external-16:](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables){target=_blank})
-
-        List of environment variables to set in the container.
-
-    * **resources** ([*Resources*:octicons-link-external-16:](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources){target=_blank})
-
-        Compute Resources required by this container. Cannot be updated. More info: [https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
-
-## ColossalAIJobStatus
-
-ColossalAIJobStatus is the most recently observed status of the ColossalAIJob.
-
-* **phase** (*string*)
-
-    A label for the condition of the Job at the current time. Can be Unknown/Initializing/Succeeded/Failed.
-
-* **conditions** (*[]JobCondition*)
-
-    Represents the latest available observations of a MPIJob's current state.
-
-    *JobCondition* is an observation of the condition of the ColossalAIJob.
-
-    * **type** (*string*)
-
-        Type of Job condition.
-
-    * **status** (*string*)
-
-        Status of the condition, one of True, False, or Unknown.
-
-    * **reason** (*string*)
-
-        The reason for the condition's last transition.
-
-    * **message** (*string*)
-
-        A readable message indicating details about the transition.
-
-    * **lastTransitionTime** (*Time*)
-
-        Last time the condition transitioned from one status to another.
-
-* **aggregate**(*Aggregate*)
-
-    Count the number of replicas in each phase.
-
-    * **creating** (*int32*)
-
-        The number of replicas that is just creating.
-
-    * **pending** (*int32*)
-
-        The number of pending replicas.
-
-    * **running** (*int32*)
-
-        The number of running replicas.
-
-    * **succeeded** (*int32*)
-
-        The number of succeeded replicas.
-
-    * **failed** (*int32*)
-
-        The number of failed replicas.
-
-    * **unknown** (*int32*)
-
-        The number of replicas whose phase is unknwon.
-
-    * **deleted** (*int32*)
-
-        The number of deleted replicas.
-
-* **tasks** (*[]TaskStatus*)
-
-    The statuses of individual tasks.
-
-    *TaskStatus* defines the observed state of the task.
-
-    * **replicaType** (*string*)
-
-        Type of the replica.
-
-    * **replicaIndex** (*int32*)
-
-        Index of the replica.
-
-    * **replicas** (*[]ReplicaStatus*)
-
-        Status of the replica pod.
-
-        *ReplicaStatus* defines the observed state of the pod.
-
-        * **name** (*string*)
-
-            Pod Name.
-
-        * **uid** (*string*)
-
-            Pod UID.
-
-        * **phase** (*PodPhase*)
-
-            Pod phase, one of Creating, Pending, Running, Succeeded, Failed, Unknown or Deleted.
-
-        * **containers** (*[]ContainerStatus*)
-
-            Status of the container named "pytorch" in the pod.
-
-            *ContainerStatus* defines the observed state of the container.
-
-            * **containerPhase** (*string*)
-
-                Phase of the container, one of Waiting, Running, Terminated or Unknown.
-
-            * **exitCode** (*int32*)
-
-                Exit code of the container if it is terminated.

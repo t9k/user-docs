@@ -1,95 +1,194 @@
----
-title: TensorBoard
----
+# API Reference
 
-# TensorBoard
+## Packages
+- [tensorstack.dev/v1beta1](#tensorstackdevv1beta1)
 
-## TensorBoard
 
-* **apiVersion**: tensorstack.dev/v1beta1
-* **kind**: TensorBoard
-* **metadata** ([*ObjectMeta*:octicons-link-external-16:](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/#ObjectMeta){target=_blank})
+## tensorstack.dev/v1beta1
 
-    Standard object's metadata. More info: [https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata:octicons-link-external-16:](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata){target=_blank}.
+Package v1beta1 contains API Schema definitions for the  v1beta1 API group
 
-* **spec** ([*TensorBoardSpec*](#tensorboardspec))
+### Resource Types
+- [TensorBoard](#tensorboard)
+- [TensorBoardList](#tensorboardlist)
 
-    Specification of the desired behavior of the TensorBoard.
 
-* **status** ([*TensorBoardStatus*](#tensorboardstatus))
 
-    Recently observed status of the TensorBoard.
+#### PodReference
 
-## TensorBoardSpec
 
-* **runMode** (*string*)
 
-    Specifies the run mode of the TensorBoard, defaults to running. Valid options are running and paused.
+PodReference references to a `v1.pod`.
 
-* **trainingLogFilesets** (*[]string*)
+_Appears in:_
+- [PodStatus](#podstatus)
 
-    trainingLogFilesets is the list of filesets containing training log. 
+| Field | Description |
+| --- | --- |
+| `name` _string_ | Name of the Pod. |
+| `uid` _string_ | UID of the Pod. |
 
-* **image** (*string*)
 
-    image with tensorboard tool.
+#### PodStatus
 
-* **runMode** (*string*)
 
-    TensorBoard run mode, one of runing or paused. If run mode is paused, tensorboard controller will delete service workload to release resources.
 
-## TensorBoardStatus
+Pod defines the observed state of a replica.
 
-Recently observed status of the TensorBoard.
+_Appears in:_
+- [TensorBoardStatus](#tensorboardstatus)
 
-* **phase** (*string*)
+| Field | Description |
+| --- | --- |
+| `reference` _[PodReference](#podreference)_ | References to the subordinate `v1.Pod`. |
+| `phase` _[PodPhase](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#podphase-v1-core)_ | Replicated from the corresponding field in the subordinate `v1.Pod`. |
 
-    A label for the condition of a tensorboard at the current time. Can be one of Initializing, Running or Paused.
 
-* **pod** (*PodStatus*)
+#### SchedulePolicy
 
-    Defines the observed state of the tensorboard pod.
 
-    *PodStatus* display basic info and phase of a pod.
 
-    * **reference** (*PodReference*)
+SchedulePolicy specifies the preferred scheduler responsible for handling resource allocation requests.
 
-        Refer to pod.
+_Appears in:_
+- [TensorBoardSpec](#tensorboardspec)
 
-        * **name** (*string*)
+| Field | Description |
+| --- | --- |
+| `t9kScheduler` _[T9kScheduler](#t9kscheduler)_ |  |
 
-            Name of pod.
 
-        * **uid** (*string*)
+#### T9kScheduler
 
-            Uid of pod.
 
-    * **phase** (*string*)
 
-        Pod phase.
 
-* **conditions** (*[]TensorBoardCondition*)
 
-    Describe tensorboard states in different conditions.
+_Appears in:_
+- [SchedulePolicy](#schedulepolicy)
 
-    *TensorBoardCondition* is an observation of the condition of the TensorBoard.
+| Field | Description |
+| --- | --- |
+| `queue` _string_ | Name of the queue to use with the T9kScheduler. |
 
-    * **type** (*string*)
 
-        Type of tensorboard condition.
+#### TensorBoard
 
-    * **status** (*string*)
 
-        Status of the condition, one of True, False, or Unknown.
 
-    * **message** (*string*)
+TensorBoard is the Schema for the tensorboards API
 
-        A readable message indicating details about the transition.
+_Appears in:_
+- [TensorBoardList](#tensorboardlist)
 
-    * **lastTransitionTime** (*Time*)
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `tensorstack.dev/v1beta1`
+| `kind` _string_ | `TensorBoard`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[TensorBoardSpec](#tensorboardspec)_ |  |
+| `status` _[TensorBoardStatus](#tensorboardstatus)_ |  |
 
-        Last time the condition transitioned from one status to another.
 
-    * **lastProbeTime** (*Time*)
+#### TensorBoardCondition
 
-        Last time the condition was probed.
+
+
+TensorBoardCondition defines the observed condition of TensorBoard
+
+_Appears in:_
+- [TensorBoardStatus](#tensorboardstatus)
+
+| Field | Description |
+| --- | --- |
+| `type` _[TensorBoardConditionType](#tensorboardconditiontype)_ | Type is the type of the condition. Possible values are Idle, etc |
+| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#conditionstatus-v1-core)_ | Status is the status of the condition type. Possible values of type Idle are True|False|Unknown |
+| `message` _string_ | Message is the reason of the status |
+| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta)_ | LastTransitionTime is the last time the status was changed |
+| `lastProbeTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta)_ | LastProbeTime is the last time the condition was probed |
+
+
+#### TensorBoardConditionType
+
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [TensorBoardCondition](#tensorboardcondition)
+
+
+
+#### TensorBoardList
+
+
+
+TensorBoardList contains a list of TensorBoard
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `tensorstack.dev/v1beta1`
+| `kind` _string_ | `TensorBoardList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[TensorBoard](#tensorboard) array_ |  |
+
+
+#### TensorBoardPhase
+
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [TensorBoardStatus](#tensorboardstatus)
+
+
+
+#### TensorBoardRunMode
+
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [TensorBoardSpec](#tensorboardspec)
+
+
+
+#### TensorBoardSpec
+
+
+
+TensorBoardSpec defines the desired state of TensorBoard
+
+_Appears in:_
+- [TensorBoard](#tensorboard)
+
+| Field | Description |
+| --- | --- |
+| `trainingLogFilesets` _string array_ | TrainingLogFilesets is the list of filesets containing training log. TODO: Document the syntax of this field. |
+| `image` _string_ | The container image used to run the tensorboard. |
+| `runMode` _[TensorBoardRunMode](#tensorboardrunmode)_ |  |
+| `scheduler` _[SchedulePolicy](#schedulepolicy)_ |  |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#resourcerequirements-v1-core)_ | Compute Resources required by this container. Cannot be updated. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ |
+
+
+#### TensorBoardStatus
+
+
+
+TensorBoardStatus defines the observed state of TensorBoard
+
+_Appears in:_
+- [TensorBoard](#tensorboard)
+
+| Field | Description |
+| --- | --- |
+| `phase` _[TensorBoardPhase](#tensorboardphase)_ |  |
+| `pod` _[PodStatus](#podstatus)_ |  |
+| `conditions` _[TensorBoardCondition](#tensorboardcondition) array_ | Conditions is an array of current conditions |
+| `url` _string_ | The URL to Web UI of the tensorboard |
+
+
