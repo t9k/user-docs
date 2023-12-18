@@ -75,7 +75,7 @@ markdown_extensions:
       slugify: !!python/object/apply:pymdownx.slugs.slugify
         kwds:
           case: lower
-      toc_depth: 3 # range of levels to be included in toc
+      toc_depth: 4 # range of levels to be included in toc
 
 # Plugins
 plugins:
@@ -149,25 +149,21 @@ nav:
       # - 构建 Job 自定义镜像: reference/image/build-job-custom-image.md
     - API:
       - reference/api/index.md
-      - Build Console:
-        - reference/api/build-console/index.md
-        - Project: reference/api/build-console/project.md
-        - Job:
-          - reference/api/build-console/jobs/index.md
-          - GenericJob: reference/api/build-console/jobs/genericjob.md
-          - TensorFlowTrainingJob: reference/api/build-console/jobs/tensorflowtrainingjob.md
-          - PyTorchTrainingJob: reference/api/build-console/jobs/pytorchtrainingjob.md
-          - XGBoostTrainingJob: reference/api/build-console/jobs/xgboosttrainingjob.md
-          - ColossalAIJob: reference/api/build-console/jobs/colossalaijob.md
-          - DeepSpeedJob: reference/api/build-console/jobs/deepspeedjob.md
-          - MPIJob: reference/api/build-console/jobs/mpijob.md
-        - TensorBoard: reference/api/build-console/tensorboard.md
-        - Notebook: reference/api/build-console/notebook.md
-        - Explorer: reference/api/build-console/explorer.md
-        - StorageShim: reference/api/build-console/storageshim.md
-      - Scheduling:
-        - reference/api/scheduling/index.md
-        - Resources: reference/api/scheduling/resources.md
+      - CRD References:
+        - reference/api/crd/index.md
+        - Project: reference/api/crd/project.md
+        - GenericJob: reference/api/crd/genericjob.md
+        - TensorFlowTrainingJob: reference/api/crd/tensorflowtrainingjob.md
+        - PyTorchTrainingJob: reference/api/crd/pytorchtrainingjob.md
+        - XGBoostTrainingJob: reference/api/crd/xgboosttrainingjob.md
+        - ColossalAIJob: reference/api/crd/colossalaijob.md
+        - DeepSpeedJob: reference/api/crd/deepspeedjob.md
+        - MPIJob: reference/api/crd/mpijob.md
+        - TensorBoard: reference/api/crd/tensorboard.md
+        - Notebook: reference/api/crd/notebook.md
+        - Explorer: reference/api/crd/explorer.md
+        - StorageShim: reference/api/crd/storageshim.md
+        - Scheduler: reference/api/crd/scheduler.md
   - 工具:
     - tool/index.md
     - TensorStack CLI:
